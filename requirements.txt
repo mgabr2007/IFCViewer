@@ -1,1 +1,4 @@
 ifcopenshell
+numpy
+pandas
+pyvista
