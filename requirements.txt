@@ -1,4 +1,6 @@
+streamlit
 ifcopenshell
-numpy
+matplotlib
+plotly
 pandas
-pyvista
+xlsxwriter
