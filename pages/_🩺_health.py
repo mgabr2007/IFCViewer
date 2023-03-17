@@ -162,29 +162,41 @@ st.sidebar.button("➕ Add Schedule", key="add_work_schedule_button", on_click=a
 st.sidebar.button("💾 Save File", key="save_file", on_click=save_file)
 
 def initialise_debug_props(force=False):
-if not "BIMDebugProperties" in session:
-session.BIMDebugProperties = {
-"step_id": 0,
-"number_of_polygons": 0,
-"percentile_of_polygons": 0,
-"active_step_id": 0,
-"step_id_breadcrumb": [],
-"attributes": [],
-"inverse_attributes": [],
-"inverse_references": [],
-"express_file": None,
-}
-if force:
-session.BIMDebugProperties = {
-"step_id": 0,
+    if not "BIMDebugProperties" in session:
+        session.BIMDebugProperties = {
+            "step_id": 0,
+            "number_of_polygons": 0,
+            "percentile_of_polygons": 0,
+            "active_step_id": 0,
+            "step_id_breadcrumb": [],
+            "attributes": [],
+            "inverse_attributes": [],
+            "inverse_references": [],
+            "express_file": None,
+        }
+    if force:
+        session.BIMDebugProperties = {
+            "step_id": 0,
+            "number_of_polygons": 0,
+            "percentile_of_polygons": 0,
+            "active_step_id": 0,
+            "step_id_breadcrumb": [],
+            "attributes": [],
+            "inverse_attributes": [],
+            "inverse_references": [],
+            "express_file": None,
+        }
+
 def get_object_data(fromId=None):
+    pass
+
 def add_attribute(prop, key, value):
-if isinstance(value, tuple) and len(value) < 10:
-for i, item in enumerate(value):
-add_attribute(prop, key + f"[{i}]", item)
-return
-elif isinstance(value, tuple) and len(value) >= 10:
-key = key + "({})".format(len(value))
+    if isinstance(value, tuple) and len(value) < 10:
+        for i, item in enumerate(value):
+            add_attribute(prop, key + f"[{i}]", item)
+        return
+    elif isinstance(value, tuple) and len(value) >= 10:
+        key = key + "({})".format(len(value))
     propy = {
         "name": key,
         "string_value": str(value),
