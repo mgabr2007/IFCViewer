@@ -349,8 +349,8 @@ if session.isHealthDataLoaded:
     with tab2:
         draw_graphs()
     with tab3:
-    draw_schedules()
-    row1_col1, row1_col2 = st.columns([1, 3])
+        draw_schedules()
+        row1_col1, row1_col2 = st.columns([1, 3])
     with row1_col1:
         number_of_schedules = len(session.CostData["schedules"])
         st.subheader(f'Cost Schedules: {number_of_schedules}')
