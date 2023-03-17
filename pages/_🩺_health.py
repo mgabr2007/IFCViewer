@@ -357,47 +357,52 @@ if session.isHealthDataLoaded:
             schedules = [f'{cost_schedule.Name} ({cost_schedule.id()})' for cost_schedule in
                          session.CostData["schedules"]
 st.selectbox("Cost Schedules", [f'{cost_schedule.Name} ({cost_schedule.id()})' for cost_schedule in session.CostData["schedules"]], key="cost_schedule_selector")
+
 if not session.ifc_file.by_type("IfcCostItem"):
-st.warning("No Cost Items 😥")
+    st.warning("No Cost Items 😥")
 else:
-cost_schedule_id = int(session.cost_schedule_selector.split("(", 1)[1].split(")", 1)[0])
-cost_schedule = session.ifc_file.by_id(cost_schedule_id)
-tasks = ifchelper.get_cost_tasks(cost_schedule) if cost_schedule else None
-if tasks:
-st.subheader(f'Tasks ({len(tasks)})')
-task_names = [f'{task.Name} ({task.id()})' for task in tasks]
-session.cost_task_selector = st.selectbox("Tasks", task_names, key="cost_task_selector")
-if session.cost_task_selector:
-task_id = int(session.cost_task_selector.split("(", 1)[1].split(")", 1)[0])
-task = session.ifc_file.by_id(task_id)
-if task:
-task_data = ifchelper.get_cost_task_data(task)
-st.table(task_data)
+    cost_schedule_id = int(session.cost_schedule_selector.split("(", 1)[1].split(")", 1)[0])
+    cost_schedule = session.ifc_file.by_id(cost_schedule_id)
+    tasks = ifchelper.get_cost_tasks(cost_schedule) if cost_schedule else None
+    if tasks:
+        st.subheader(f'Tasks ({len(tasks)})')
+        task_names = [f'{task.Name} ({task.id()})' for task in tasks]
+        session.cost_task_selector = st.selectbox("Tasks", task_names, key="cost_task_selector")
+        if session.cost_task_selector:
+            task_id = int(session.cost_task_selector.split("(", 1)[1].split(")", 1)[0])
+            task = session.ifc_file.by_id(task_id)
+            if task:
+                task_data = ifchelper.get_cost_task_data(task)
+                st.table(task_data)
+            else:
+                st.warning("The selected task does not exist.")
+    else:
+        st.warning("No Tasks 😥")
+    
+    st.subheader("Add Task")
+    with st.form(key="add_cost_task"):
+        task_name = st.text_input("Name", key="cost_task_name")
+        task_desc = st.text_input("Description", key="cost_task_desc")
+        task_unit = st.text_input("Unit", key="cost_task_unit")
+        task_price = st.number_input("Price", key="cost_task_price")
+        task_qty = st.number_input("Quantity", key="cost_task_qty")
+        if st.form_submit_button("Add Task"):
+            ifchelper.create_cost_task(cost_schedule, task_name, task_desc, task_unit, task_price, task_qty)
+            load_cost_schedules()
+            st.success("Task added successfully.")
+        session.cost_task_selector = ""
+
+    st.subheader("Delete Task")
+    with st.form(key="delete_cost_task"):
+        if st.form_submit_button("Delete Task"):
+            delete_cost_task()
+        if session.cost_task_selector:
+            st.warning("Please deselect the task before adding or deleting another one.")
+
+    draw_side_bar()
 else:
-st.warning("The selected task does not exist.")
-else:
-st.warning("No Tasks 😥")
-st.subheader("Add Task")
-with st.form(key="add_cost_task"):
-task_name = st.text_input("Name", key="cost_task_name")
-task_desc = st.text_input("Description", key="cost_task_desc")
-task_unit = st.text_input("Unit", key="cost_task_unit")
-task_price = st.number_input("Price", key="cost_task_price")
-task_qty = st.number_input("Quantity", key="cost_task_qty")
-if st.form_submit_button("Add Task"):
-ifchelper.create_cost_task(cost_schedule, task_name, task_desc, task_unit, task_price, task_qty)
-load_cost_schedules()
-st.success("Task added successfully.")
-session.cost_task_selector = ""
-st.subheader("Delete Task")
-with st.form(key="delete_cost_task"):
-if st.form_submit_button("Delete Task"):
-delete_cost_task()
-if session.cost_task_selector:
-st.warning("Please deselect the task before adding or deleting another one.")
-draw_side_bar()
-else:
-st.header("Step 1: Load a file from the Home Page")
+    st.header("Step 1: Load a file from the Home Page")
+
 def delete_cost_task():
     task_id = int(session.cost_task_selector.split("(", 1)[1].split(")", 1)[0])
     task = session.ifc_file.by_id(task_id)
