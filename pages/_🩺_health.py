@@ -114,8 +114,8 @@ if tasks:
     st.info(f'Number of Tasks : {len(tasks)}')
 task_data = ifchelper.get_task_data(tasks)
 st.table(task_data)
-else:
-    st.warning("No Tasks 😥")
+    else:
+        st.warning("No Tasks 😥")
 else:
     st.warning("No Schedules 😥")
 with col2:
