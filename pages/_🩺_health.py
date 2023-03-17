@@ -99,7 +99,7 @@ def draw_graphs():
 def draw_schedules():
     col1, col2 = st.columns(2)
 with col1:
-number_of_schedules = len(session.SequenceData["schedules"])
+    number_of_schedules = len(session.SequenceData["schedules"])
 st.subheader(
 f'Work Schedules: {number_of_schedules}'
 )
