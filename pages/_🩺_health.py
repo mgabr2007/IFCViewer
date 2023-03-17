@@ -160,6 +160,7 @@ st.sidebar.button("➕ Add Schedule", key="add_work_schedule_button", on_click=a
 
 ## File Saver
 st.sidebar.button("💾 Save File", key="save_file", on_click=save_file)
+
 def initialise_debug_props(force=False):
 if not "BIMDebugProperties" in session:
 session.BIMDebugProperties = {
