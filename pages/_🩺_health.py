@@ -241,52 +241,55 @@ if session.BIMDebugProperties:
 
     print(debug_props["attributes"])
 def edit_object_data(object_id, attribute):
-entity = session.ifc_file.by_id(object_id)
-print(getattr(entity, attribute))
+    entity = session.ifc_file.by_id(object_id)
+    print(getattr(entity, attribute))
+
 
 def add_cost_task():
-st.text_input("Task ID", key="task_id_input")
-st.text_input("Task Name", key="task_name_input")
-st.text_input("Task Description", key="task_description_input")
-st.text_input("Task Start", key="task_start_input")
-st.text_input("Task Finish", key="task_finish_input")
-if st.button("Add Task", key="add_cost_task_button"):
-task_id = session.task_id_input.strip()
-task_name = session.task_name_input.strip()
-task_description = session.task_description_input.strip()
-task_start = session.task_start_input.strip()
-task_finish = session.task_finish_input.strip()
-schedule_id = int(session.cost_schedule_selector.split("/", 1)[1])
-schedule = session.ifc_file.by_id(schedule_id)
-if not schedule:
-st.warning("The selected cost schedule does not exist.")
-return
-if not task_id or not task_name or not task_description or not task_start or not task_finish:
-st.warning("Please fill in all the task information.")
-return
-task = ifchelper.create_cost_task(schedule, task_id, task_name, task_description, task_start, task_finish)
-if not task:
-st.warning("Failed to create the task.")
-else:
-st.success("Task added successfully.")
-session.task_id_input = ""
-session.task_name_input = ""
-session.task_description_input = ""
-session.task_start_input = ""
-session.task_finish_input = ""
+    st.text_input("Task ID", key="task_id_input")
+    st.text_input("Task Name", key="task_name_input")
+    st.text_input("Task Description", key="task_description_input")
+    st.text_input("Task Start", key="task_start_input")
+    st.text_input("Task Finish", key="task_finish_input")
+    if st.button("Add Task", key="add_cost_task_button"):
+        task_id = session.task_id_input.strip()
+        task_name = session.task_name_input.strip()
+        task_description = session.task_description_input.strip()
+        task_start = session.task_start_input.strip()
+        task_finish = session.task_finish_input.strip()
+        schedule_id = int(session.cost_schedule_selector.split("/", 1)[1])
+        schedule = session.ifc_file.by_id(schedule_id)
+        if not schedule:
+            st.warning("The selected cost schedule does not exist.")
+            return
+        if not task_id or not task_name or not task_description or not task_start or not task_finish:
+            st.warning("Please fill in all the task information.")
+            return
+        task = ifchelper.create_cost_task(schedule, task_id, task_name, task_description, task_start, task_finish)
+        if not task:
+            st.warning("Failed to create the task.")
+        else:
+            st.success("Task added successfully.")
+        session.task_id_input = ""
+        session.task_name_input = ""
+        session.task_description_input = ""
+        session.task_start_input = ""
+        session.task_finish_input = ""
+
+
 def delete_cost_task():
-if not session.cost_task_selector:
-st.warning("Please select a task to delete.")
-return
-task_id = int(session.cost_task_selector.split("/", 1)[1])
-task = session.ifc_file.by_id(task_id)
-if not task:
-st.warning("The selected task does not exist.")
-return
-ifchelper.delete_cost_task(task)
-load_cost_schedules()
-st.success("Task deleted successfully.")
-session.cost_task_selector = ""
+    if not session.cost_task_selector:
+        st.warning("Please select a task to delete.")
+        return
+    task_id = int(session.cost_task_selector.split("/", 1)[1])
+    task = session.ifc_file.by_id(task_id)
+    if not task:
+        st.warning("The selected task does not exist.")
+        return
+    ifchelper.delete_cost_task(task)
+    load_cost_schedules()
+    st.success("Task deleted successfully.")
+    session.cost_task_selector = ""
 
 def execute():
 initialise_debug_props()
