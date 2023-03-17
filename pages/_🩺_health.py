@@ -349,36 +349,34 @@ if session.isHealthDataLoaded:
     with tab2:
         draw_graphs()
     with tab3:
-        draw_schedules()
-        row1_col1, row1_col2 = st.columns([1, 3])
-        with row1_col1:
-            number_of_schedules = len(session.CostData["schedules"])
-            st.subheader(f'Cost Schedules: {number_of_schedules}')
-            schedules = [f'{cost_schedule.Name} ({cost_schedule.id()})' for cost_schedule in
-                         session.CostData["schedules"]
-st.selectbox("Cost Schedules", [f'{cost_schedule.Name} ({cost_schedule.id()})' for cost_schedule in session.CostData["schedules"]], key="cost_schedule_selector")
+    draw_schedules()
+    row1_col1, row1_col2 = st.columns([1, 3])
+    with row1_col1:
+        number_of_schedules = len(session.CostData["schedules"])
+        st.subheader(f'Cost Schedules: {number_of_schedules}')
+        schedules = [f'{cost_schedule.Name} ({cost_schedule.id()})' for cost_schedule in session.CostData["schedules"]]
+    st.selectbox("Cost Schedules", schedules, key="cost_schedule_selector")
 
-if not session.ifc_file.by_type("IfcCostItem"):
-    st.warning("No Cost Items 😥")
-else:
-    cost_schedule_id = int(session.cost_schedule_selector.split("(", 1)[1].split(")", 1)[0])
-    cost_schedule = session.ifc_file.by_id(cost_schedule_id)
-    tasks = ifchelper.get_cost_tasks(cost_schedule) if cost_schedule else None
-    if tasks:
-        st.subheader(f'Tasks ({len(tasks)})')
-        task_names = [f'{task.Name} ({task.id()})' for task in tasks]
-        session.cost_task_selector = st.selectbox("Tasks", task_names, key="cost_task_selector")
-        if session.cost_task_selector:
-            task_id = int(session.cost_task_selector.split("(", 1)[1].split(")", 1)[0])
-            task = session.ifc_file.by_id(task_id)
-            if task:
-                task_data = ifchelper.get_cost_task_data(task)
-                st.table(task_data)
-            else:
-                st.warning("The selected task does not exist.")
+    if not session.ifc_file.by_type("IfcCostItem"):
+        st.warning("No Cost Items 😥")
     else:
-        st.warning("No Tasks 😥")
-    
+        cost_schedule_id = int(session.cost_schedule_selector.split("(", 1)[1].split(")", 1)[0])
+        cost_schedule = session.ifc_file.by_id(cost_schedule_id)
+        tasks = ifchelper.get_cost_tasks(cost_schedule) if cost_schedule else None
+        if tasks:
+            st.subheader(f'Tasks ({len(tasks)})')
+            task_names = [f'{task.Name} ({task.id()})' for task in tasks]
+            session.cost_task_selector = st.selectbox("Tasks", task_names, key="cost_task_selector")
+            if session.cost_task_selector:
+                task_id = int(session.cost_task_selector.split("(", 1)[1].split(")", 1)[0])
+                task = session.ifc_file.by_id(task_id)
+                if task:
+                    task_data = ifchelper.get_cost_task_data(task)
+                    st.table(task_data)
+                else:
+                    st.warning("The selected task does not exist.")
+        else:
+            st.warning("No Tasks 😥")
     st.subheader("Add Task")
     with st.form(key="add_cost_task"):
         task_name = st.text_input("Name", key="cost_task_name")
