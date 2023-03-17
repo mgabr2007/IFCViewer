@@ -292,10 +292,10 @@ def delete_cost_task():
     session.cost_task_selector = ""
 
 def execute():
-initialise_debug_props()
-st.header(" 🩺 Model Health")
-if "isHealthDataLoaded" not in session:
-    initialize_session_state()
+    initialise_debug_props()
+    st.header(" 🩺 Model Health")
+    if "isHealthDataLoaded" not in session:
+        initialize_session_state()
 
 if not session.isHealthDataLoaded:
     load_data()
