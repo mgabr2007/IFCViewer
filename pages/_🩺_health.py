@@ -109,15 +109,15 @@ st.selectbox("Schedules", schedules, key="schedule_selector")
 schedule_id = int(session.schedule_selector.split("/", 1)[1]) if session.schedule_selector else None
 schedule = session.ifc_file.by_id(schedule_id) if schedule_id else None
 if schedule:
-tasks = ifchelper.get_schedule_tasks(schedule) if schedule else None
+    tasks = ifchelper.get_schedule_tasks(schedule) if schedule else None
 if tasks:
-st.info(f'Number of Tasks : {len(tasks)}')
+    st.info(f'Number of Tasks : {len(tasks)}')
 task_data = ifchelper.get_task_data(tasks)
 st.table(task_data)
-else:
-st.warning("No Tasks 😥")
-else:
-st.warning("No Schedules 😥")
+    else:
+        st.warning("No Tasks 😥")
+    else:
+        st.warning("No Schedules 😥")
 with col2:
     number_of_schedules = len(session.CostScheduleData["schedules"])
     st.subheader(
