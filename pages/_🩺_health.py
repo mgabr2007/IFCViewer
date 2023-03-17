@@ -98,58 +98,55 @@ def draw_graphs():
 
 def draw_schedules():
     col1, col2 = st.columns(2)
-with col1:
-    number_of_schedules = len(session.SequenceData["schedules"])
-st.subheader(
-f'Work Schedules: {number_of_schedules}'
-)
-schedules = [f'{work_schedule.Name} / {work_schedule.id()}' for work_schedule in
-session.SequenceData["schedules"] or []]
-st.selectbox("Schedules", schedules, key="schedule_selector")
-schedule_id = int(session.schedule_selector.split("/", 1)[1]) if session.schedule_selector else None
-schedule = session.ifc_file.by_id(schedule_id) if schedule_id else None
-if schedule:
-    tasks = ifchelper.get_schedule_tasks(schedule) if schedule else None
-if tasks:
-    st.info(f'Number of Tasks : {len(tasks)}')
-task_data = ifchelper.get_task_data(tasks)
-st.table(task_data)
-    else:
-        st.warning("No Tasks 😥")
-else:
-    st.warning("No Schedules 😥")
-with col2:
-    number_of_schedules = len(session.CostScheduleData["schedules"])
-    st.subheader(
-        f'Cost Schedules: {number_of_schedules}'
-    )
-    schedules = [f'{cost_schedule.Name} / {cost_schedule.id()}' for cost_schedule in
-                 session.CostScheduleData["schedules"] or []]
-    session.cost_schedule_selector = st.selectbox("Schedules", schedules, key="cost_schedule_selector")
-    if not session.cost_schedule_selector:
-        st.warning("No cost schedules 😥")
-    else:
-        schedule_id = int(session.cost_schedule_selector.split("/", 1)[1])
-        schedule = session.ifc_file.by_id(schedule_id)
-        if not schedule:
-            st.warning("The selected cost schedule does not exist.")
-        else:
-            tasks = ifchelper.get_cost_tasks(schedule)
+    with col1:
+        number_of_schedules = len(session.SequenceData["schedules"])
+        st.subheader(f'Work Schedules: {number_of_schedules}')
+        schedules = [f'{work_schedule.Name} / {work_schedule.id()}' for work_schedule in session.SequenceData["schedules"] or []]
+        session.schedule_selector = st.selectbox("Schedules", schedules, key="schedule_selector")
+        schedule_id = int(session.schedule_selector.split("/", 1)[1]) if session.schedule_selector else None
+        schedule = session.ifc_file.by_id(schedule_id) if schedule_id else None
+        if schedule:
+            tasks = ifchelper.get_schedule_tasks(schedule) if schedule else None
             if tasks:
                 st.info(f'Number of Tasks : {len(tasks)}')
-                task_data = ifchelper.get_cost_task_data(tasks)
+                task_data = ifchelper.get_task_data(tasks)
                 st.table(task_data)
             else:
                 st.warning("No Tasks 😥")
-            st.write("")
-            st.write("Add Task")
-            add_cost_task()
-            st.write("")
-            st.write("Delete Task")
-            delete_cost_task()
+        else:
+            st.warning("No Schedules 😥")
+    with col2:
+        number_of_schedules = len(session.CostScheduleData["schedules"])
+        st.subheader(f'Cost Schedules: {number_of_schedules}')
+        schedules = [f'{cost_schedule.Name} / {cost_schedule.id()}' for cost_schedule in session.CostScheduleData["schedules"] or []]
+        session.cost_schedule_selector = st.selectbox("Schedules", schedules, key="cost_schedule_selector")
+        if not session.cost_schedule_selector:
+            st.warning("No cost schedules 😥")
+        else:
+            schedule_id = int(session.cost_schedule_selector.split("/", 1)[1])
+            schedule = session.ifc_file.by_id(schedule_id)
+            if not schedule:
+                st.warning("The selected cost schedule does not exist.")
+            else:
+                tasks = ifchelper.get_cost_tasks(schedule)
+                if tasks:
+                    st.info(f'Number of Tasks : {len(tasks)}')
+                    task_data = ifchelper.get_cost_task_data(tasks)
+                    st.table(task_data)
+                else:
+                    st.warning("No Tasks 😥")
+                st.write("")
+                st.write("Add Task")
+                add_cost_task()
+                st.write("")
+                st.write("Delete Task")
+                delete_cost_task()
+                
 def draw_side_bar():
+    pass
+
 def save_file():
-session.ifc_file.write(session.file_name)
+    session.ifc_file.write(session.file_name)
 
 ## Cost Scheduler
 st.sidebar.header("💰 Cost Scheduler")
