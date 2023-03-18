@@ -107,8 +107,10 @@ st.sidebar.write("""
 """)
 st.write("")
 st.sidebar.write("")
-if name == "main":
-session = st.session_state
-session["popup_shown"] = False
-main()
+
+if __name__ == "main":
+    session = st.session_state
+    session["popup_shown"] = False
+    main()
+
 
