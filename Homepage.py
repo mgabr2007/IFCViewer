@@ -1,6 +1,8 @@
 import ifcopenshell
 import pyvista as pv
 import streamlit as st
+import os
+os.environ["VTK_CONFIG_FILE"] = "/path/to/vtk-config.cmake"
 
 def visualize_geometry(file_path, lod_level):
     # Open the IFC file
