@@ -93,7 +93,6 @@ def main():
     if "is_file_loaded" in session and session["is_file_loaded"]:
         st.sidebar.success(f'Project successfuly loaded')
         st.sidebar.write("🔃 You can reload a new file  ")
-        
             col1.subheader(f'Start Exploring "{get_project_name()}"')
             col2.text_input("✏️ Change Project Name", key="project_name_input")
             col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
