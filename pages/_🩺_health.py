@@ -234,7 +234,7 @@ def execute():
 
             with row1_col1:
                 st.text_input("Object Global ID", key="object_id")
-                                inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
+                inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
 
             with row1_col2:
                 reset_button = st.button("🔄️ Reset", key="reset_object_data_button")
