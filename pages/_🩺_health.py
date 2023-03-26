@@ -135,8 +135,7 @@ def get_object_data(fromId=None):
         return
 
     step_id = fromId
-    else:
-        step_id = int(session.object_id) if session.object_id else 0
+    
     def add_attribute(prop, key, value):
         if isinstance(value, tuple) and len(value) < 10:
             for i, item in enumerate(value):
