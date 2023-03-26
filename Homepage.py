@@ -2,8 +2,6 @@ import ifcopenshell
 import pandas as pd
 import streamlit as st
 
-
-
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
     session["array_buffer"] = session["uploaded_file"].getvalue()
