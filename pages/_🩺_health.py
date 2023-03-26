@@ -221,8 +221,8 @@ def execute():
                 st.text_input("Object Global ID", key="object_id")
                 st.button("Inspect from Object Global Id", key="get_object_button", on_click=get_object_data, args=(session.object_id,))
 
-            # Add reset button in the third column
-            with row1_col3:
+             # Add reset button in the third column
+             with row1_col3:
                 if st.button("Reset", key="reset_object_data_button"):
                     get_object_data()
 
