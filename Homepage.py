@@ -49,7 +49,7 @@ def get_project_name():
 def change_project_name():
     if session.project_name_input:
         session.ifc_file.by_type("IfcProject")[0].Name = session.project_name_input
-        st.balloons()
+        st.sidebar.success("Project name changed successfully.")
 
 def main():      
     st.set_page_config(
