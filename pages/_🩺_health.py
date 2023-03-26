@@ -212,7 +212,7 @@ def execute():
         load_data()
 
     if session.isHealthDataLoaded:
-    tab1, tab2, tab3 = st.tabs(["📊 Debug", "📈 Charts", "📝 Schedules"])
+        tab1, tab2, tab3 = st.tabs(["📊 Debug", "📈 Charts", "📝 Schedules"])
     
     ## REPLICATE IFC DEBUG PANNEL
     with tab1:
