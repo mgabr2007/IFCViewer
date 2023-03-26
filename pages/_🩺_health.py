@@ -205,15 +205,13 @@ def execute():
         load_ifc_file()
     if session.get("ifc_file"):
         global_id = st.session_state.get("object_id", "")
-            if global_id:
-                try:
-                    element = session.ifc_file.by_guid(global_id)
-                    if element:
-                        get_object_data(element.id())
-                except Exception as e:
-                    st.warning(f"An error occurred while fetching the element: {e}")
-            else:
-                get_object_data(None)
+        if global_id:
+            try:
+                element = session.ifc_file.by_guid(global_id)
+                if element:
+                    get_object_data(element.id())
+            except Exception as e:
+                st.warning(f"An error occurred while fetching the element: {e}")
         else:
             get_object_data(None)
 
