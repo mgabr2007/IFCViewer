@@ -95,31 +95,39 @@ def main():
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
         if "available_components" in session:
-            # Add "Select All Components" option to the dropdown list
-            options = ["Pick Component", "Select All Components"] + session["available_components"][1:]
-            data_to_display = st.selectbox("Select component to display:", options, index=0)
+            # Allow user to select a main component
+            main_component = st.selectbox("Select main component:", ["Pick Component", "IfcWall", "IfcWindow", "IfcDoor"])
 
-            # Check if data to_display is present in session state and is not empty
-            if data_to_display == "Select All Components":
-                all_data_frames = []
-                for key in session["data"]:
-                    data_frame = session["data"][key]
+            if main_component != "Pick Component":
+                # Filter available components based on the selected main component
+                filtered_components = [comp for comp in session["available_components"] if comp.startswith(main_component)]
+
+                # Add "Select All Components" option to the dropdown list
+                options = ["Select All Components"] + filtered_components
+                data_to_display = st.selectbox("Select specific component to display:", options, index=0)
+
+                # Check if data to_display is present in session state and is not empty
+                if data_to_display == "Select All Components":
+                    all_data_frames = []
+                    for key in session["data"]:
+                        if key.startswith(main_component):
+                            data_frame = session["data"][key]
+                            if not data_frame.empty:
+                                all_data_frames.append(data_frame)
+
+                    if all_data_frames:
+                        combined_data_frame = pd.concat(all_data_frames)
+                        st.write(combined_data_frame)
+                    else:
+                        st.warning("❌ No data found for selected component.")
+                elif data_to_display in session["data"]:
+                    data_frame = session["data"][data_to_display]
                     if not data_frame.empty:
-                        all_data_frames.append(data_frame)
-
-                if all_data_frames:
-                    combined_data_frame = pd.concat(all_data_frames)
-                    st.write(combined_data_frame)
+                        st.write(data_frame)
+                    else:
+                        st.warning("❌ No data found for selected component.")
                 else:
                     st.warning("❌ No data found for selected component.")
-            elif data_to_display in session["data"]:
-                data_frame = session["data"][data_to_display]
-                if not data_frame.empty:
-                    st.write(data_frame)
-                else:
-                    st.warning("❌ No data found for selected component.")
-            else:
-                st.warning("❌ No data found for selected component.")
     st.sidebar.write("""
     --------------
     --------------
