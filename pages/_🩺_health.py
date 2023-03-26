@@ -266,7 +266,7 @@ def execute():
     with tab3:
         draw_schedules()
     draw_side_bar()
-else:
-    st.header("Step 1: Load a file from the Home Page")
+    else:
+        st.header("Step 1: Load a file from the Home Page")
 session = st.session_state
 execute()
