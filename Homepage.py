@@ -93,22 +93,18 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
-        # Initialize data_to_display variable
-        data_to_display = None
-
-        # Add component selection dropdown
         if "available_components" in session:
             data_to_display = st.selectbox("Select component to display:", session["available_components"])
 
-        # Check if data_to_display is defined and present in session state
-        if data_to_display and data_to_display in session["data"]:
-            data_frame = session["data"][data_to_display]
-            if not data_frame.empty:
-                st.write(data_frame)
+            # Check if data to_display is present in session state and is not empty
+            if data_to_display in session["data"]:
+                data_frame = session["data"][data_to_display]
+                if not data_frame.empty:
+                    st.write(data_frame)
+                else:
+                    st.warning("No data found for selected component.")
             else:
                 st.warning("No data found for selected component.")
-        else:
-            st.warning("No data found for selected component.")
     st.sidebar.write("""
     --------------
     --------------
