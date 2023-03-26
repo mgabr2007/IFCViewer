@@ -130,11 +130,6 @@ def main():
                         st.warning("❌ No data found for selected component.")
                 else:
                     st.warning("❌ No data found for selected component.")
-    # ... (rest of the code)
-
-if __name__ == "__main__":
-    session = st.session_state
-    main()
 
     st.sidebar.write("""
     --------------
