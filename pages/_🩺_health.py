@@ -226,7 +226,7 @@ def execute():
                 if st.button("Reset", key="reset_object_data_button"):
                     get_object_data()
 
-            if "BIMDebugProperties" in session and session.BIMDebugProperties:
+                if "BIMDebugProperties" in session and session.BIMDebugProperties:
                 props = session.BIMDebugProperties
                 ## DIRECT ATTRIBUTES
                 if props["attributes"]:
