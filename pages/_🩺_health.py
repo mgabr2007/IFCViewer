@@ -131,10 +131,10 @@ def initialise_debug_props(force=False):
         }
 
 def get_object_data(fromId=None):
-    if not session.get("object_id") and not fromId:
+    if not fromId:
         return
-    if fromId:
-        step_id = fromId
+
+    step_id = fromId
     else:
         step_id = int(session.object_id) if session.object_id else 0
     def add_attribute(prop, key, value):
@@ -202,7 +202,23 @@ def edit_object_data(object_id, attribute):
     print(getattr(entity, attribute))
     
 def execute():
-    
+    if not session.get("ifc_file"):
+        load_ifc_file()
+    if session.get("ifc_file"):
+        if st.button("Inspect from Object Global Id", key="get_object_button"):
+            global_id = st.session_state.get("object_id", "")
+            if global_id:
+                try:
+                    element = session.ifc_file.by_guid(global_id)
+                    if element:
+                        get_object_data(element.id())
+                except Exception as e:
+                    st.warning(f"An error occurred while fetching the element: {e}")
+            else:
+                get_object_data(None)
+        else:
+            get_object_data(None)
+     
     initialise_debug_props()
     st.header(" 🩺 Model Health")
 
