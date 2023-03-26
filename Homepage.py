@@ -62,7 +62,7 @@ def main():
     if "data" not in session:
         session["data"] = {}
     if "available_components" not in session:
-        session["available_components"] = []
+        session["available_components"] = ["Pick Component"]
                                        
     st.set_page_config(
         layout= "wide",
@@ -80,9 +80,13 @@ def main():
     st.sidebar.header('Model Loader')
     st.sidebar.file_uploader("Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
 
+    ## Add Reset Button
+    if st.sidebar.button("Reset"):
+        session.clear()
+
     ## Add File Name and Success Message
     if "is_file_loaded" in session and session["is_file_loaded"]:
-        st.sidebar.success(f'Project successfuly loaded')
+        st.sidebar.success(f'Project successfully loaded')
         st.sidebar.write("🔃 You can reload a new file  ")
         
         col1, col2 = st.columns([2,1])
@@ -90,25 +94,18 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
-        # Modify available components to include 'All Components'
-        available_components = ["Pick Component", "All Components"] + session["available_components"]
+        if "available_components" in session:
+            data_to_display = st.selectbox("Select component to display:", session["available_components"], index=0)
 
-        data_to_display = st.selectbox("Select component to display:", available_components)
-
-        if data_to_display == "All Components":
-            data_frame = pd.concat(session["data_frames"], ignore_index=True)
-        else:
-            data_key = data_to_display.lower()
-            if data_key in session["data"]:
-                data_frame = session["data"][data_key]
+            # Check if data to_display is present in session state and is not empty
+            if data_to_display in session["data"]:
+                data_frame = session["data"][data_to_display]
+                if not data_frame.empty:
+                    st.write(data_frame)
+                else:
+                    st.warning("No data found for selected component.")
             else:
-                data_frame = pd.DataFrame()
-
-        if not data_frame.empty:
-            st.write(data_frame)
-        else:
-            st.warning("No data found for selected component.")
-    
+                st.warning("No data found for selected component.")
     st.sidebar.write("""
     --------------
     --------------
@@ -121,4 +118,3 @@ def main():
 if __name__ == "__main__":
     session = st.session_state
     main()
-
