@@ -41,8 +41,12 @@ def callback_upload():
     session["data"] = {
         "walls": pd.DataFrame(walls),
         "windows": pd.DataFrame(windows),
-        "doors": pd.DataFrame(doors)
+        "doors": pd.DataFrame(doors),
     }
+
+    # Store a list of individual data frames
+    session["data_frames"] = [pd.DataFrame(walls), pd.DataFrame(windows), pd.DataFrame(doors)]
+
 ##########################################################################
 def get_project_name():
     return session.ifc_file.by_type("IfcProject")[0].Name
@@ -86,18 +90,25 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
-        if "available_components" in session:
-            data_to_display = st.selectbox("Select component to display:", session["available_components"])
+        # Modify available components to include 'All Components'
+        available_components = ["Pick Component", "All Components"] + session["available_components"]
 
-            # Check if data to_display is present in session state and is not empty
-            if data_to_display in session["data"]:
-                data_frame = session["data"][data_to_display]
-                if not data_frame.empty:
-                    st.write(data_frame)
-                else:
-                    st.warning("No data found for selected component.")
+        data_to_display = st.selectbox("Select component to display:", available_components)
+
+        if data_to_display == "All Components":
+            data_frame = pd.concat(session["data_frames"], ignore_index=True)
+        else:
+            data_key = data_to_display.lower()
+            if data_key in session["data"]:
+                data_frame = session["data"][data_key]
             else:
-                st.warning("No data found for selected component.")
+                data_frame = pd.DataFrame()
+
+        if not data_frame.empty:
+            st.write(data_frame)
+        else:
+            st.warning("No data found for selected component.")
+    
     st.sidebar.write("""
     --------------
     --------------
@@ -110,3 +121,4 @@ def main():
 if __name__ == "__main__":
     session = st.session_state
     main()
+
