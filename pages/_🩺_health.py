@@ -232,7 +232,7 @@ def execute():
                 if props["attributes"]:
                     st.subheader("Attributes")
                     for prop in props["attributes"]:
-                    col2, col3 = st.columns([3, 3])
+                        col2, col3 = st.columns([3, 3])
                     if prop["int_value"]:
                         col2.text(f'🔗 {prop["name"]}')
                         col2.info(prop["string_value"])
