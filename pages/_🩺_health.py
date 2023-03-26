@@ -233,21 +233,19 @@ def execute():
         with tab1:
             row1_col1, row1_col2 = st.columns([1, 5])
 
-        with row1_col1:
-            st.text_input("Object Global ID", key="object_id")
-            inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
+            with row1_col1:
+                st.text_input("Object Global ID", key="object_id")
+                inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
 
-        # Add reset button in the third column
-        with row1_col2:
-            reset_button = st.button("🔄️ Reset", key="reset_object_data_button")
+            # Add reset button in the third column
+            with row1_col2:
+                reset_button = st.button("🔄️ Reset", key="reset_object_data_button")
 
-    if inspect_button:
-        get_object_data(session.object_id)
+        if inspect_button:
+            get_object_data(session.object_id)
 
-    if reset_button:
-        get_object_data(None)
-
-
+        if reset_button:
+            get_object_data(None)
 
                 if "BIMDebugProperties" in session and session.BIMDebugProperties:
                    props = session.BIMDebugProperties
