@@ -4,9 +4,7 @@ import pandas as pd
 
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
-    session["array_buffer"] = session["uploaded_file"].getvalue()
-    session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
-    session["is_file_loaded"] = True
+    session["array_buffer"] = session["uploaded
        
     ### Empty Previous Model Data from Session State
     session["isHealthDataLoaded"] = False
@@ -67,7 +65,14 @@ def change_project_name():
         st.sidebar.success("Project name changed successfully.")
 
 def main():      
-    st.set_page_config(
+    if "is_file_loaded" not in session:
+        session["is_file_loaded"] = False
+    if "data" not in session:
+        session["data"] = {}
+    if "available_components" not in session:
+        session["available_components"] = []
+                                       
+     st.set_page_config(
         layout= "wide",
         page_title="IFC Stream",
         page_icon="✍️",
