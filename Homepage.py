@@ -43,7 +43,6 @@ def callback_upload():
     else:
         st.warning("No data found for selected component.")
 
-
     # Store available components in session state
     session["available_components"] = available_components
 
@@ -98,15 +97,15 @@ def main():
         if "available_components" in session:
             data_to_display = st.selectbox("Select component to display:", session["available_components"])
 
-            # Check if data to display is present in session state and is not empty
-            if data_to_display in session["data"]:
-                data_frame = session["data"][data_to_display]
-                if not data_frame.empty:
-                    st.write(data_frame)
-                else:
-                    st.warning("No data found for selected component.")
+        # Check if data to display is present in session state and is not empty
+        if data_to_display in session["data"]:
+            data_frame = session["data"][data_to_display]
+            if not data_frame.empty:
+                st.write(data_frame)
             else:
                 st.warning("No data found for selected component.")
+        else:
+            st.warning("No data found for selected component.")
     st.sidebar.write("""
     --------------
     --------------
