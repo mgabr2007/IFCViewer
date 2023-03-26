@@ -127,7 +127,7 @@ def main():
                     else:
                         st.warning("❌ No data found for selected component.")
                 else:
-                    st.warning("❌  No data found for selected component.")
+                    st.warning("❌ No data found for selected component.")
     st.sidebar.write("""
     --------------
     --------------
