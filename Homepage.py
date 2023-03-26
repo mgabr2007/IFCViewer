@@ -47,7 +47,6 @@ def callback_upload():
     # Store available components in session state
     session["available_components"] = available_components
 
-
     # Extract data from IFC file
     walls = session["ifc_file"].by_type("IfcWall")
     windows = session["ifc_file"].by_type("IfcWindow")
@@ -86,7 +85,7 @@ def main():
     st.sidebar.file_uploader("Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
 
     ## Add File Name and Success Message
-    if "is_file_loaded" in session and session["is_file_loaded"]:
+     if "is_file_loaded" in session and session["is_file_loaded"]:
         st.sidebar.success(f'Project successfuly loaded')
         st.sidebar.write("🔃 You can reload a new file  ")
         
@@ -99,22 +98,19 @@ def main():
         if "available_components" in session:
             data_to_display = st.selectbox("Select component to display:", session["available_components"])
 
-            # Check if data to display is present in session state
-            if data_to_display not in session["data"]:
-                st.warning("No data found for selected component.")
+            # Check if data to display is present in session state and is not empty
+            if data_to_display in session["data"]:
+                data_frame = session["data"][data_to_display]
+                if not data_frame.empty:
+                    st.write(data_frame)
+                else:
+                    st.warning("No data found for selected component.")
             else:
-                # Display selected component data
-                st.write(session["data"][data_to_display])
-
+                st.warning("No data found for selected component.")
     st.sidebar.write("""
     --------------
-    ### Credits:
-    #### Sigma Dimensions (TM)
-    
-    Follow us [on Youtube](https://www.youtube.com/channel/UC9bPwuJZUD6ooKqzwdq9M9Q?sub_confirmation=1)
-    
     --------------
-    License: MIT
+    
     
     """)
     st.write("")
