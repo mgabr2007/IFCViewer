@@ -4,10 +4,10 @@ import pandas as pd
 
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
-    session["array_buffer"] = session["uploaded
+    session["array_buffer"] = session["uploaded_file"].getvalue()
     session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
     session["is_file_loaded"] = True
-                                      
+    
     ### Empty Previous Model Data from Session State
     session["isHealthDataLoaded"] = False
     session["HealthData"] = {}
@@ -29,20 +29,6 @@ def callback_upload():
                 data_frame = pd.DataFrame([c])
                 if not data_frame.empty:
                     available_components.append(c.Name)
-    # Add component selection dropdown
-    if "available_components" in session:
-        data_to_display = st.selectbox("Select component to display:", session["available_components"])
-
-    # Check if data to display is present in session state and is not empty
-    if data_to_display in session["data"]:
-        data_frame = session["data"][data_to_display]
-        if not data_frame.empty:
-            st.write(data_frame)
-        else:
-            st.warning("No data found for selected component.")
-    else:
-        st.warning("No data found for selected component.")
-
     # Store available components in session state
     session["available_components"] = available_components
 
