@@ -76,7 +76,7 @@ def main():
         col1, col2 = st.columns([2,1])
         col1.subheader(f'Start Exploring "{session["ifc_file"].by_type("IfcProject")[0].Name}"')
         col2.text_input("✏️ Change Project Name", key="project_name_input")
-        col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
+        col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
        
     st.sidebar.write("""
     --------------
