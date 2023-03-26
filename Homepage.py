@@ -23,12 +23,12 @@ def callback_upload():
     # Extract available components from IFC file
     available_components = ["Pick Component"]
     for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
-    components_data = session["ifc_file"].by_type(component)
-    if components_data:
-        for c in components_data:
-            data_frame = pd.DataFrame([c])
-            if not data_frame.empty:
-                available_components.append(c.Name)
+        components_data = session["ifc_file"].by_type(component)
+        if components_data:
+            for c in components_data:
+                data_frame = pd.DataFrame([c])
+                if not data_frame.empty:
+                    available_components.append(c.Name)
     # Add component selection dropdown
     if "available_components" in session:
     data_to_display = st.selectbox("Select component to display:", session["available_components"])
