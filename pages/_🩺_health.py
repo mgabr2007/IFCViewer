@@ -210,9 +210,8 @@ def execute():
 
     if not session.isHealthDataLoaded:
         load_data()
-
     if session.isHealthDataLoaded:
-        tab1, tab2, tab3 = st.tabs(["📊 Debug", "📈 Charts", "📝 Schedules"])
+    tab1, tab2, tab3 = st.tabs(["📊 Debug", "📈 Charts", "📝 Schedules"])
     
     ## REPLICATE IFC DEBUG PANNEL
     with tab1:
@@ -266,7 +265,8 @@ def execute():
     with tab3:
         draw_schedules()
     draw_side_bar()
- else:
+else:
     st.header("Step 1: Load a file from the Home Page")
+   
 session = st.session_state
 execute()
