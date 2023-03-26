@@ -5,7 +5,9 @@ import pandas as pd
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
     session["array_buffer"] = session["uploaded
-       
+    session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
+    session["is_file_loaded"] = True
+                                      
     ### Empty Previous Model Data from Session State
     session["isHealthDataLoaded"] = False
     session["HealthData"] = {}
