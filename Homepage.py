@@ -31,7 +31,7 @@ def callback_upload():
                     available_components.append(c.Name)
     # Add component selection dropdown
     if "available_components" in session:
-    data_to_display = st.selectbox("Select component to display:", session["available_components"])
+        data_to_display = st.selectbox("Select component to display:", session["available_components"])
 
     # Check if data to display is present in session state and is not empty
     if data_to_display in session["data"]:
