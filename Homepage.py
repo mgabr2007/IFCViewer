@@ -2,6 +2,8 @@ import ifcopenshell
 import pandas as pd
 import streamlit as st
 
+
+
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
     session["array_buffer"] = session["uploaded_file"].getvalue()
@@ -82,48 +84,41 @@ def main():
     )
     st.title("Streamlit IFC")
     st.markdown(
-    """ 
-    ###  📁 Click on Browse File in the Side Bar to start
-    """
+        """ 
+        ### 📁 Click on Browse File in the Side Bar to start
+        """
     )
 
-    ## Add File uploader to Side Bar Navigation
+    # Add File uploader to Side Bar Navigation
     st.sidebar.header('Model Loader')
     st.sidebar.file_uploader("Choose a file", type=['ifc'], key="uploaded_file", on_change=callback_upload)
 
-    ## Add File Name and Success Message
+    # Add File Name and Success Message
     if "is_file_loaded" in session and session["is_file_loaded"]:
-        st.sidebar.success(f'Project successfuly loaded')
-        st.sidebar.write("🔃 You can reload a new file  ")
+        st.sidebar.success(f'Project successfully loaded')
+        st.sidebar.write("🔃 You can reload a new file")
         
-        # Add comparison section
-        if "data" in session:
-            st.sidebar.write("----")
-            st.sidebar.header("Compare Components")
-            compare_components()
-            if session["comparison"] is not None:
-                st.write(session["comparison"])
-            
-        # Add section to display data from IFC file
-        st.sidebar.write("----")
-        st.sidebar.header("IFC Data")
-        data_to_display = st.sidebar.selectbox("Select component to display:", ["walls", "windows", "doors"])
+        # Add component selection dropdown
+        data_to_display = st.selectbox("Select component to display:", session["available_components"])
+        
+        # Check if data to display is present in session state
+        if data_to_display not in session["data"]:
+            st.warning("No data found for selected component.")
+            return
+        
+        # Display selected component data
         st.write(session["data"][data_to_display])
-        
-        # Add section to change project name
+
         col1, col2 = st.columns([2,1])
-        col1.subheader(f'Start Exploring "{session["ifc_file"].by_type("IfcProject")[0].Name}"')
+        col1.subheader(f'Start Exploring "{get_project_name()}"')
         col2.text_input("✏️ Change Project Name", key="project_name_input")
-        col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
-       
+        col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
+
     st.sidebar.write("""
     --------------
-     
     --------------
+    
     """)
     st.write("")
     st.sidebar.write("")
 
-if __name__ == "__main__":
-    session = st.session_state
-    main()
