@@ -23,9 +23,16 @@ def callback_upload():
     # Extract available components from IFC file
     available_components = ["Pick Component"]
     for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
-        available_components.extend([c.Name for c in session["ifc_file"].by_type(component)])
+        components_data = session["ifc_file"].by_type(component)
+        if components_data:
+            available_components.extend([c.Name for c in components_data])
 
-    # Store available components in session state
+
+    # Store available co    for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
+        components_data = session["ifc_file"].by_type(component)
+        if components_data:
+            available_components.extend([c.Name for c in components_data])
+mponents in session state
     session["available_components"] = available_components
 
     # Extract data from IFC file
