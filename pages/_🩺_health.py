@@ -216,24 +216,32 @@ def execute():
         
         ## REPLICATE IFC DEBUG PANNEL
         with tab1:
-            row1_col1, row1_col2 = st.columns([1,5])
-            with row1_col1:
-                st.text_input("Object Global ID", key="object_id")
-                st.button("Inspect from Object Global Id", key="get_object_button", on_click=get_object_data, args=(session.object_id,))
-            if "BIMDebugProperties" in session and session.BIMDebugProperties:
-                props = session.BIMDebugProperties
-                ## DIRECT ATTRIBUTES
-                if props["attributes"]:
-                    st.subheader("Attributes")
-                    for prop in props["attributes"]:
-                        col2, col3 = st.columns([3,3])
-                        if prop["int_value"]:
-                            col2.text(f'🔗 {prop["name"]}')
-                            col2.info(prop["string_value"])
-                            col3.text("🔗")
-                            col3.button("Get Object", key=f'get_object_pop_button_{prop["int_value"]}', on_click=get_object_data, args=(prop["int_value"],))
-                        else:
-                            col2.text_input(label=prop["name"], key=prop["name"], value=prop["string_value"])
+            row1_col1, row1_col2, row1_col3 = st.columns([1, 5, 1])
+
+        with row1_col1:
+        st.text_input("Object Global ID", key="object_id")
+        st.button("Inspect from Object Global Id", key="get_object_button", on_click=get_object_data, args=(session.object_id,))
+
+        # Add reset button in the third column
+        with row1_col3:
+        if st.button("Reset", key="reset_object_data_button"):
+            get_object_data()
+
+        if "BIMDebugProperties" in session and session.BIMDebugProperties:
+        props = session.BIMDebugProperties
+        ## DIRECT ATTRIBUTES
+        if props["attributes"]:
+            st.subheader("Attributes")
+            for prop in props["attributes"]:
+                col2, col3 = st.columns([3, 3])
+                if prop["int_value"]:
+                    col2.text(f'🔗 {prop["name"]}')
+                    col2.info(prop["string_value"])
+                    col3.text("🔗")
+                    col3.button("Get Object", key=f'get_object_pop_button_{prop["int_value"]}', on_click=get_object_data, args=(prop["int_value"],))
+                else:
+                    col2.text_input(label=prop["name"], key=prop["name"], value=prop["string_value"])
+
                 
                 ## INVERSE ATTRIBUTES           
                 if props["inverse_attributes"]:
