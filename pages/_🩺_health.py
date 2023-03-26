@@ -138,7 +138,6 @@ def get_object_data(fromId=None):
             return
         elif isinstance(value, tuple) and len(value) >= 10:
             key = key + "({})".format(len(value))
-        
         propy = {
             "name": key,
             "string_value": str(value),
@@ -224,7 +223,8 @@ def execute():
              # Add reset button in the third column
              with row1_col2:
                 if st.button("🔄️ Reset", key="reset_object_data_button"):
-                    get_object_data()
+                   get_object_data(None)
+
 
                 if "BIMDebugProperties" in session and session.BIMDebugProperties:
                    props = session.BIMDebugProperties
