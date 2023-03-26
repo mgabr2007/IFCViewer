@@ -31,10 +31,24 @@ def compare_components():
     # Compare selected components
     data_1 = session["data"][component_1]
     data_2 = session["data"][component_2]
+
+    # Check column names and data types
+    shared_cols = set(data_1.columns) & set(data_2.columns)
+    non_numeric_cols = set(data_1.select_dtypes(exclude=[pd.np.number]).columns) | set(data_2.select_dtypes(exclude=[pd.np.number]).columns)
+    for col in shared_cols:
+        if data_1[col].dtype != data_2[col].dtype:
+            if col not in non_numeric_cols:
+                data_1[col] = pd.to_numeric(data_1[col], errors="coerce")
+                data_2[col] = pd.to_numeric(data_2[col], errors="coerce")
+                if data_1[col].dtype != data_2[col].dtype:
+                    st.warning(f"Could not convert {col} column to a compatible data type.")
+    
+    # Concatenate selected components
     comparison = pd.concat([data_1.describe(), data_2.describe()], keys=[component_1, component_2], axis=1)
     
     # Store comparison results in session state
     session["comparison"] = comparison
+
 
 def main():      
     st.set_page_config(
