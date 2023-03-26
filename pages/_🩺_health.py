@@ -131,6 +131,12 @@ def initialise_debug_props(force=False):
         }
 
 def get_object_data(fromId=None):
+    if not session.get("object_id") and not fromId:
+        return
+    if fromId:
+        step_id = fromId
+    else:
+        step_id = int(session.object_id) if session.object_id else 0
     def add_attribute(prop, key, value):
         if isinstance(value, tuple) and len(value) < 10:
             for i, item in enumerate(value):
@@ -144,10 +150,6 @@ def get_object_data(fromId=None):
             "int_value": int(value.id()) if isinstance(value, ifcopenshell.entity_instance) else None,
         }
         prop.append(propy)
-    if fromId:
-        step_id = fromId
-    else:
-        step_id = int(session.object_id) if session.object_id else 0
     debug_props = st.session_state.BIMDebugProperties
     debug_props["active_step_id"] = step_id
     crumb = {"name": str(step_id)}
