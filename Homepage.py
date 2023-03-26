@@ -77,19 +77,15 @@ def main():
         col1.subheader(f'Start Exploring "{session["ifc_file"].by_type("IfcProject")[0].Name}"')
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
-        st.sidebar.write("""
---------------
-### Credits:
-#### Sigma Dimensions (TM)
+       
+    st.sidebar.write("""
+    --------------
+     
+    --------------
+    """)
+    st.write("")
+    st.sidebar.write("")
 
-Follow us [on Youtube](https://www.youtube.com/channel/UC9bPwuJZUD6ooKqzwdq9M9Q?sub_confirmation=1)
-
---------------
-License: MIT
-
-""")
-st.write("")
-st.sidebar.write("")
-if name == "main":
+if __name__ == "__main__":
     session = st.session_state
-main()
+    main()
