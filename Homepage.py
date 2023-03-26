@@ -81,7 +81,7 @@ def main():
     st.sidebar.file_uploader("Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
 
     ## Add Reset Button
-    if st.sidebar.button("Reset"):
+    if st.sidebar.button("🔄️ Reset"):
         session.clear()
 
     ## Add File Name and Success Message
