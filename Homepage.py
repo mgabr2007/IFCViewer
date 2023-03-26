@@ -8,6 +8,14 @@ def callback_upload():
     session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
     session["is_file_loaded"] = True
     
+    # Extract available components from IFC file
+    available_components = ["Pick Component"]
+    for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
+        available_components.extend([c.Name for c in session["ifc_file"].by_type(component)])
+    
+    # Store available components in session state
+    session["available_components"] = available_components
+    
     # Extract data from IFC file
     walls = session["ifc_file"].by_type("IfcWall")
     windows = session["ifc_file"].by_type("IfcWindow")
@@ -73,6 +81,7 @@ def compare_components():
     
     # Store comparison results in session state
     session["comparison"] = comparison
+
 
 def main():      
     st.set_page_config(
