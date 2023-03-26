@@ -23,10 +23,36 @@ def callback_upload():
     # Clear previous comparison results
     session["comparison"] = None
 
+def callback_upload():
+    session["file_name"] = session["uploaded_file"].name
+    session["array_buffer"] = session["uploaded_file"].getvalue()
+    session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
+    session["is_file_loaded"] = True
+
+    # Extract available components from IFC file
+    available_components = ["Pick Component"]
+    for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
+        available_components.extend([c.Name for c in session["ifc_file"].by_type(component)])
+
+    # Store available components in session state
+    session["available_components"] = available_components
+
+    # Empty Previous Model Data from Session State
+    session["isHealthDataLoaded"] = False
+    session["HealthData"] = {}
+    session["Graphs"] = {}
+    session["SequenceData"] = {}
+    session["CostScheduleData"] = {}
+
+    # Empty Previous DataFrame from Session State
+    session["DataFrame"] = None
+    session["Classes"] = []
+    session["IsDataFrameLoaded"] = False
+
 def compare_components():
     # Get user input for components to compare
-    component_1 = st.selectbox("Select first component:", ["Pick Component", "walls", "windows", "doors"])
-    component_2 = st.selectbox("Select second component:", ["Pick Component", "walls", "windows", "doors"])
+    component_1 = st.selectbox("Select first component:", session["available_components"])
+    component_2 = st.selectbox("Select second component:", session["available_components"])
 
     # Check if both components are the same
     if component_1 == component_2:
