@@ -15,7 +15,7 @@ def main():
         """
     )
 
-    uploaded_file = st.file_uploader("Choose a file", type=['ifc'])
+    uploaded_file = st.file_uploader("Choose a file", type=['ifc', 'IFC'])
 
     if uploaded_file is not None:
         # Load IFC file from uploaded file
@@ -68,5 +68,4 @@ def main():
     """)
     st.write("")
     st.sidebar.write("")
-
 
