@@ -85,7 +85,7 @@ def main():
     st.sidebar.file_uploader("Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
 
     ## Add File Name and Success Message
-     if "is_file_loaded" in session and session["is_file_loaded"]:
+    if "is_file_loaded" in session and session["is_file_loaded"]:
         st.sidebar.success(f'Project successfuly loaded')
         st.sidebar.write("🔃 You can reload a new file  ")
         
