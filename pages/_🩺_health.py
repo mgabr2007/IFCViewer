@@ -145,7 +145,20 @@ def get_object_data(fromId=None):
             "int_value": int(value.id()) if isinstance(value, ifcopenshell.entity_instance) else None,
         }
         prop.append(propy)
-            
+    if fromId:
+        step_id = fromId
+    else:
+        step_id = int(session.object_id) if session.object_id else 0
+    debug_props = st.session_state.BIMDebugProperties
+    debug_props["active_step_id"] = step_id
+    crumb = {"name": str(step_id)}
+    debug_props["step_id_breadcrumb"].append(crumb)
+
+    try:
+        element = session.ifc_file.by_id(step_id)
+    except Exception as e:
+        st.warning(f"An error occurred while fetching the element: {e}")
+        return        
     if session.BIMDebugProperties:
         initialise_debug_props(force=True)
         step_id = 0
