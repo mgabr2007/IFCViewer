@@ -91,5 +91,5 @@ License: MIT
 st.write("")
 st.sidebar.write("")
 if name == "main":
-session = st.session_state
+    session = st.session_state
 main()
