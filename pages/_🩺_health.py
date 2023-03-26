@@ -217,7 +217,7 @@ def execute():
         with tab1:
              row1_col1, row1_col2, row1_col3 = st.columns([1, 5, 1])
 
-            with row1_col1:
+             with row1_col1:
                 st.text_input("Object Global ID", key="object_id")
                 st.button("Inspect from Object Global Id", key="get_object_button", on_click=get_object_data, args=(session.object_id,))
 
