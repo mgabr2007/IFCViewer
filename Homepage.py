@@ -93,44 +93,6 @@ def main():
         col1.subheader(f'Start Exploring "{get_project_name()}"')
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
-
-   
-        if "available_components" in session:
-            # Allow user to select a main component
-            main_component = st.selectbox("Select main component:", ["Pick Component", "IfcWall", "IfcWindow", "IfcDoor"])
-
-            if main_component != "Pick Component":
-                # Filter available components based on the selected main component
-                filtered_components = [comp for comp in session["available_components"] if comp.startswith(main_component)]
-
-                # Add "Select All Components" option to the dropdown list
-                options = ["Select All Components"] + filtered_components
-                data_to_display = st.selectbox("Select specific component to display:", options, index=0)
-
-                # Check if data to_display is present in session state and is not empty
-                if data_to_display == "Select All Components":
-                    all_data_frames = []
-                    for key in session["data"]:
-                        if key.startswith(main_component.lower()):  # Use lower() for case-insensitive comparison
-                            data_frame = session["data"][key]
-                            if not data_frame.empty:
-                                all_data_frames.append(data_frame)
-
-                    if all_data_frames:
-                        combined_data_frame = pd.concat(all_data_frames)
-                        st.write(combined_data_frame)
-                    else:
-                        st.warning("❌ No data found for selected component.")
-                elif data_to_display in filtered_components:
-                    data_frame = session["data"][main_component.lower() + "s"]
-                    specific_data_frame = data_frame[data_frame['Name'] == data_to_display]
-                    if not specific_data_frame.empty:
-                        st.write(specific_data_frame)
-                    else:
-                        st.warning("❌ No data found for selected component.")
-                else:
-                    st.warning("❌ No data found for selected component.")
-
     st.sidebar.write("""
     --------------
     --------------
