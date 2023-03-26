@@ -23,9 +23,26 @@ def callback_upload():
     # Extract available components from IFC file
     available_components = ["Pick Component"]
     for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
-        components_data = session["ifc_file"].by_type(component)
-        if components_data:
-           available_components.extend([c.Name for c in components_data])
+    components_data = session["ifc_file"].by_type(component)
+    if components_data:
+        for c in components_data:
+            data_frame = pd.DataFrame([c])
+            if not data_frame.empty:
+                available_components.append(c.Name)
+    # Add component selection dropdown
+    if "available_components" in session:
+    data_to_display = st.selectbox("Select component to display:", session["available_components"])
+
+    # Check if data to display is present in session state and is not empty
+    if data_to_display in session["data"]:
+        data_frame = session["data"][data_to_display]
+        if not data_frame.empty:
+            st.write(data_frame)
+        else:
+            st.warning("No data found for selected component.")
+    else:
+        st.warning("No data found for selected component.")
+
 
     # Store available components in session state
     session["available_components"] = available_components
@@ -42,7 +59,7 @@ def callback_upload():
         "windows": pd.DataFrame(windows),
         "doors": pd.DataFrame(doors)
     }
-
+##########################################################################
 def get_project_name():
     return session.ifc_file.by_type("IfcProject")[0].Name
 
