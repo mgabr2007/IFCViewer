@@ -217,7 +217,7 @@ def execute():
                 get_object_data(None)
         else:
             get_object_data(None)
-     
+
     initialise_debug_props()
     st.header(" 🩺 Model Health")
 
@@ -228,16 +228,14 @@ def execute():
         load_data()
     if session.isHealthDataLoaded:
         tab1, tab2, tab3 = st.tabs(["📊 Debug", "📈 Charts", "📝 Schedules"])
-    
-        ## REPLICATE IFC DEBUG PANNEL
+
         with tab1:
             row1_col1, row1_col2 = st.columns([1, 5])
 
             with row1_col1:
                 st.text_input("Object Global ID", key="object_id")
-                inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
+                                inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
 
-            # Add reset button in the third column
             with row1_col2:
                 reset_button = st.button("🔄️ Reset", key="reset_object_data_button")
 
@@ -247,13 +245,13 @@ def execute():
         if reset_button:
             get_object_data(None)
 
-                if "BIMDebugProperties" in session and session.BIMDebugProperties:
-                   props = session.BIMDebugProperties
-                    ## DIRECT ATTRIBUTES
-                    if props["attributes"]:
-                        st.subheader("Attributes")
-                    for prop in props["attributes"]:
-                        col2, col3 = st.columns([3, 3])
+        if "BIMDebugProperties" in session and session.BIMDebugProperties:
+            props = session.BIMDebugProperties
+            ## DIRECT ATTRIBUTES
+            if props["attributes"]:
+                st.subheader("Attributes")
+                for prop in props["attributes"]:
+                    col2, col3 = st.columns([3, 3])
                     if prop["int_value"]:
                         col2.text(f'🔗 {prop["name"]}')
                         col2.info(prop["string_value"])
@@ -262,24 +260,25 @@ def execute():
                     else:
                         col2.text_input(label=prop["name"], key=prop["name"], value=prop["string_value"])
 
-                    ## INVERSE ATTRIBUTES           
-                    if props["inverse_attributes"]:
-                        st.subheader("Inverse Attributes")
-                    for inverse in props["inverse_attributes"]:
-                        col1, col2, col3 = st.columns([3,5,8])
-                        col1.text(inverse["name"])
-                        col2.text(inverse["string_value"])
-                        if inverse["int_value"]:
-                            col3.button("Get Object", key=f'get_object_pop_button_{inverse["int_value"]}', on_click=get_object_data, args=(inverse["int_value"],))
+            ## INVERSE ATTRIBUTES
+            if props["inverse_attributes"]:
+                st.subheader("Inverse Attributes")
+                for inverse in props["inverse_attributes"]:
+                    col1, col2, col3 = st.columns([3, 5, 8])
+                    col1.text(inverse["name"])
+                    col2.text(inverse["string_value"])
+                    if inverse["int_value"]:
+                        col3.button("Get Object", key=f'get_object_pop_button_{inverse["int_value"]}', on_click=get_object_data, args=(inverse["int_value"],))
 
-                    ## INVERSE REFERENCES    
-                    if props["inverse_references"]:
-                        st.subheader("Inverse References")
-                    for inverse in props["inverse_references"]:
-                        col1, col3 = st.columns([3,3])
-                        col1.text(inverse["string_value"])
-                        if inverse["int_value"]:
-                            col3.button("Get Object", key=f'get_object_pop_button_inverse_{inverse["int_value"]}', on_click=get_object_data, args=(inverse["int_value"],))
+            ## INVERSE REFERENCES
+            if props["inverse_references"]:
+                st.subheader("Inverse References")
+                for inverse in props["inverse_references"]:
+                    col1, col3 = st.columns([3, 3])
+                    col1.text(inverse["string_value"])
+                    if inverse["int_value"]:
+                        col3.button("Get Object", key=f'get_object_pop_button_inverse_{inverse["int_value"]}', on_click=get_object_data, args=(inverse["int_value"],))
+
 
         with tab2:
             draw_graphs()
