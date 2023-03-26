@@ -60,7 +60,7 @@ def main():
     if "available_components" not in session:
         session["available_components"] = []
                                        
-     st.set_page_config(
+    st.set_page_config(
         layout= "wide",
         page_title="IFC Stream",
         page_icon="✍️",
