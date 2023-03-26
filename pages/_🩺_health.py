@@ -227,7 +227,7 @@ def execute():
                     get_object_data()
 
                 if "BIMDebugProperties" in session and session.BIMDebugProperties:
-                props = session.BIMDebugProperties
+                   props = session.BIMDebugProperties
                 ## DIRECT ATTRIBUTES
                 if props["attributes"]:
                     st.subheader("Attributes")
