@@ -25,15 +25,15 @@ def callback_upload():
     for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
         components_data = session["ifc_file"].by_type(component)
         if components_data:
-            available_components.extend([c.Name for c in components_data])
+           available_components.extend([c.Name for c in components_data])
 
 
     # Store available co    for component in ["IfcWall", "IfcWindow", "IfcDoor"]:
         components_data = session["ifc_file"].by_type(component)
         if components_data:
-            available_components.extend([c.Name for c in components_data])
-mponents in session state
-    session["available_components"] = available_components
+           available_components.extend([c.Name for c in components_data])
+           components in session state
+           session["available_components"] = available_components
 
     # Extract data from IFC file
     walls = session["ifc_file"].by_type("IfcWall")
