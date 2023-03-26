@@ -260,15 +260,5 @@ def execute():
         draw_side_bar()
     else:
         st.header("Step 1: Load a file from the Home Page")
-def main():
-    st.title("IFC Viewer")
-
-    # Display the reset button
-    reset_button = st.button("Reset")
-
-    # Check if the reset button is clicked
-    if reset_button:
-        # Reset get_object_data
-        get_object_data()
 session = st.session_state
 execute()
