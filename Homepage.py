@@ -25,8 +25,13 @@ def callback_upload():
 
 def compare_components():
     # Get user input for components to compare
-    component_1 = st.selectbox("Select first component:", ["walls", "windows", "doors"])
-    component_2 = st.selectbox("Select second component:", ["walls", "windows", "doors"])
+    component_1 = st.selectbox("Select first component:", ["Pick Component", "walls", "windows", "doors"])
+    component_2 = st.selectbox("Select second component:", ["Pick Component", "walls", "windows", "doors"])
+
+    # Check if both components are the same
+    if component_1 == component_2:
+        st.warning("Please select two different components to compare.")
+        return
     
     # Compare selected components
     data_1 = session["data"][component_1]
@@ -42,8 +47,6 @@ def compare_components():
     
     # Store comparison results in session state
     session["comparison"] = comparison
-
-
 
 def main():      
     st.set_page_config(
