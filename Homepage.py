@@ -7,7 +7,7 @@ def callback_upload():
     session["array_buffer"] = session["uploaded_file"].getvalue()
     session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
     session["is_file_loaded"] = True
-    
+       
     ### Empty Previous Model Data from Session State
     session["isHealthDataLoaded"] = False
     session["HealthData"] = {}
