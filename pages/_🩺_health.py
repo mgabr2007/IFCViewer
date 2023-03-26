@@ -215,7 +215,7 @@ def execute():
     
         ## REPLICATE IFC DEBUG PANNEL
         with tab1:
-             row1_col1, row1_col2, row1_col3 = st.columns([1, 4, 2])
+             row1_col1, row1_col2, row1_col3 = st.columns([2, 4, 2])
 
              with row1_col1:
                 st.text_input("Object Global ID", key="object_id")
