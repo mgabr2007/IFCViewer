@@ -78,7 +78,7 @@ def main():
 
     ## Add File uploader to Side Bar Navigation
     st.sidebar.header('Model Loader')
-    st.sidebar.file_uploader("Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
+    st.sidebar.file_uploader("📁 Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
 
     ## Add Reset Button
     if st.sidebar.button("🔄️ Reset"):
@@ -95,17 +95,31 @@ def main():
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
         if "available_components" in session:
-            data_to_display = st.selectbox("Select component to display:", session["available_components"], index=0)
+            # Add "Select All Components" option to the dropdown list
+            options = ["Pick Component", "Select All Components"] + session["available_components"][1:]
+            data_to_display = st.selectbox("Select component to display:", options, index=0)
 
             # Check if data to_display is present in session state and is not empty
-            if data_to_display in session["data"]:
+            if data_to_display == "Select All Components":
+                all_data_frames = []
+                for key in session["data"]:
+                    data_frame = session["data"][key]
+                    if not data_frame.empty:
+                        all_data_frames.append(data_frame)
+
+                if all_data_frames:
+                    combined_data_frame = pd.concat(all_data_frames)
+                    st.write(combined_data_frame)
+                else:
+                    st.warning("❌ No data found for selected component.")
+            elif data_to_display in session["data"]:
                 data_frame = session["data"][data_to_display]
                 if not data_frame.empty:
                     st.write(data_frame)
                 else:
-                    st.warning("No data found for selected component.")
+                    st.warning("❌ No data found for selected component.")
             else:
-                st.warning("No data found for selected component.")
+                st.warning("❌ No data found for selected component.")
     st.sidebar.write("""
     --------------
     --------------
