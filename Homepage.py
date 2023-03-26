@@ -94,6 +94,7 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
+   
         if "available_components" in session:
             # Allow user to select a main component
             main_component = st.selectbox("Select main component:", ["Pick Component", "IfcWall", "IfcWindow", "IfcDoor"])
@@ -120,14 +121,21 @@ def main():
                         st.write(combined_data_frame)
                     else:
                         st.warning("❌ No data found for selected component.")
-                elif data_to_display in session["data"]:
-                    data_frame = session["data"][data_to_display]
-                    if not data_frame.empty:
-                        st.write(data_frame)
+                elif data_to_display in filtered_components:
+                    data_frame = session["data"][main_component.lower() + "s"]
+                    specific_data_frame = data_frame[data_frame['Name'] == data_to_display]
+                    if not specific_data_frame.empty:
+                        st.write(specific_data_frame)
                     else:
                         st.warning("❌ No data found for selected component.")
                 else:
                     st.warning("❌ No data found for selected component.")
+    # ... (rest of the code)
+
+if __name__ == "__main__":
+    session = st.session_state
+    main()
+
     st.sidebar.write("""
     --------------
     --------------
