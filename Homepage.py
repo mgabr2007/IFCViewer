@@ -98,6 +98,10 @@ def main():
             # Allow user to select a main component
             main_component = st.selectbox("Select main component:", ["Pick Component", "IfcWall", "IfcWindow", "IfcDoor"])
 
+            if "available_components" in session:
+            # Allow user to select a main component
+            main_component = st.selectbox("Select main component:", ["Pick Component", "IfcWall", "IfcWindow", "IfcDoor"])
+
             if main_component != "Pick Component":
                 # Filter available components based on the selected main component
                 filtered_components = [comp for comp in session["available_components"] if comp.startswith(main_component)]
@@ -110,7 +114,7 @@ def main():
                 if data_to_display == "Select All Components":
                     all_data_frames = []
                     for key in session["data"]:
-                        if key.startswith(main_component):
+                        if key.startswith(main_component.lower()):  # Use lower() for case-insensitive comparison
                             data_frame = session["data"][key]
                             if not data_frame.empty:
                                 all_data_frames.append(data_frame)
