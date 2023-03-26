@@ -204,7 +204,7 @@ def execute():
     if not session.get("ifc_file"):
         load_ifc_file()
     if session.get("ifc_file"):
-            global_id = st.session_state.get("object_id", "")
+        global_id = st.session_state.get("object_id", "")
             if global_id:
                 try:
                     element = session.ifc_file.by_guid(global_id)
