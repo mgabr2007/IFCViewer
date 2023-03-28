@@ -1,4 +1,6 @@
 import ifcopenshell
+import ifcopenshell.geom
+import py3Dmol
 import streamlit as st
 import pandas as pd
 
