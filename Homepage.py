@@ -24,8 +24,6 @@ def change_project_name():
 def main():      
     if "is_file_loaded" not in session:
         session["is_file_loaded"] = False
-
-    if "is_file_loaded" in session and session["is_file_loaded"]:
         
     st.set_page_config(
         layout= "wide",
