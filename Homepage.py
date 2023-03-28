@@ -13,30 +13,6 @@ def callback_upload():
 
     session["file_name"] = session["uploaded_file"].name
 
-    # Save the uploaded IFC file to disk
-    ifc_file_path = f"temp_{session['file_name']}"
-    with open(ifc_file_path, "wb") as ifc_file:
-        ifc_file.write(session["array_buffer"])
-
-    # Convert the IFC file to an OBJ file
-    obj_file_path = f"temp_{session['file_name']}.obj"
-    convert_ifc_to_obj(ifc_file_path, obj_file_path)
-
-    # Store the OBJ file path in the session state
-    session["obj_file_path"] = obj_file_path
-
-    # Extract data from IFC file
-    walls = session["ifc_file"].by_type("IfcWall")
-    windows = session["ifc_file"].by_type("IfcWindow")
-    doors = session["ifc_file"].by_type("IfcDoor")
-
-    # Store data in session state
-    session["data"] = {
-        "walls": pd.DataFrame(walls),
-        "windows": pd.DataFrame(windows),
-        "doors": pd.DataFrame(doors),
-    }
-
 def get_project_name():
     return session.ifc_file.by_type("IfcProject")[0].Name
 
