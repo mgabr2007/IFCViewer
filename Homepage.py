@@ -1,20 +1,7 @@
 import ifcopenshell
-import py3Dmol
 import streamlit as st
 import pandas as pd
 import os
-import subprocess
-
-def convert_ifc_to_obj(ifc_file_path, obj_file_path):
-    ifc_convert_executable = './IfcConvert'  # Path to the IfcConvert executable
-    if not os.path.exists(ifc_convert_executable):
-        raise FileNotFoundError(f'IfcConvert executable not found at {ifc_convert_executable}')
-
-    command = f"{ifc_convert_executable} {ifc_file_path} {obj_file_path}"
-    result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    if result.returncode != 0:
-        raise RuntimeError(f"Error during IFC to OBJ conversion: {result.stderr.decode('utf-8')}")
 
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
@@ -58,25 +45,12 @@ def change_project_name():
         session.ifc_file.by_type("IfcProject")[0].Name = session.project_name_input
         st.sidebar.success("Project name changed successfully.")
 
-def show_obj(obj_file_path):
-    with open(obj_file_path, 'r') as obj_file:
-        obj_data = obj_file.read()
-
-    viewer = py3Dmol.view(width=800, height=600)
-    viewer.addModel(obj_data, 'obj')
-    viewer.setStyle({'stick': {}})
-    viewer.setBackgroundColor('0xeeeeee')
-    viewer.zoomTo()
-    viewer.show()
-
 def main():      
     if "is_file_loaded" not in session:
         session["is_file_loaded"] = False
 
     if "is_file_loaded" in session and session["is_file_loaded"]:
-        # Display the 3D model
-        show_obj(session["obj_file_path"])
-    
+        
     st.set_page_config(
         layout= "wide",
         page_title="IFC Stream",
