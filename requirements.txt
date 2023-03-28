@@ -6,3 +6,4 @@ pandas
 xlsxwriter
 pyvista
 vtk
+py3Dmol
