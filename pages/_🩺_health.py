@@ -33,7 +33,9 @@ def load_work_schedules():
             } for schedule in session.ifc_file.by_type("IfcWorkSchedule")
         ],
     }
-
+def reset_object_data():
+    initialise_debug_props(force=True)
+    
 def load_cost_schedules():
     session["CostData"] = {
         "schedules": session.ifc_file.by_type("IfcCostSchedule"),
@@ -229,12 +231,12 @@ def execute():
         with tab1:
             row1_col1, row1_col2 = st.columns([1, 5])
 
-            with row1_col1:
-                st.text_input("Object Global ID", key="object_id")
-                inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
+        with row1_col1:
+             st.text_input("Object Global ID", key="object_id")
+             inspect_button = st.button("🔍 Inspect from Object Global Id", key="get_object_button")
 
-            with row1_col2:
-                reset_button = st.button("🔄️ Reset", key="reset_object_data_button")
+        with row1_col2:
+            reset_button = st.button("🔄️ Reset", key="reset_object_data_button", on_click=reset_object_data)
 
         if inspect_button:
             get_object_data(session.object_id)
