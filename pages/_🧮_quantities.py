@@ -104,7 +104,7 @@ def execute():
                         session.split_options,
                     )
                     st.plotly_chart(graph)
-      else:
-          st.header("Step 1: Load a file from the Home Page")
+                else:
+                    st.header("Step 1: Load a file from the Home Page")
 
     execute()
