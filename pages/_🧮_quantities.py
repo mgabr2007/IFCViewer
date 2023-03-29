@@ -107,4 +107,4 @@ def execute():
                 else:
                     st.header("Step 1: Load a file from the Home Page")
 
-    execute()
+execute()
