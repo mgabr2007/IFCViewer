@@ -42,15 +42,17 @@ def download_filtered_csv():
     filtered_df = pandashelper.filter_dataframe_per_class(session.DataFrame, session.class_selector)
     filtered_df = pandashelper.get_quantities(filtered_df, session.qto_selector)
 
-    # Generate a downloadable link for the CSV file
-    csv_file = filtered_df.to_csv(index=False)
-    b64 = base64.b64encode(csv_file.encode()).decode()
-    button_label = f"Download {session.class_selector} - {session.qto_selector}.csv"
-    href = f'<a href="data:file/csv;base64,{b64}" download="{session.class_selector} - {session.qto_selector}.csv"><button>{button_label}</button></a>'
+    if not filtered_df.empty:
+        # Generate a downloadable link for the CSV file
+        csv_file = filtered_df.to_csv(index=False)
+        b64 = base64.b64encode(csv_file.encode()).decode()
+        button_label = f"Download {session.class_selector} - {session.qto_selector}.csv"
+        href = f'<a href="data:file/csv;base64,{b64}" download="{session.class_selector} - {session.qto_selector}.csv"><button>{button_label}</button></a>'
 
-    # Display the download button
-    st.markdown(href, unsafe_allow_html=True)
-
+        # Display the download button
+        st.markdown(href, unsafe_allow_html=True)
+    else:
+        st.warning("No data to download!") 
 
 def execute():
     st.set_page_config(
@@ -86,7 +88,7 @@ def execute():
                         quantities = pandashelper.get_quantities(session.filtered_frame, session.qto_selector)
                         st.selectbox("Select Quantity", quantities, key="quantity_selector")
                         st.radio('Split per', ['Level', 'Type'], key="split_options")
-                        st.button("Download Filtered CSV", key="download_filtered_csv", on_click=download_filtered_csv)
+                        st.button("⏬ Download Filtered CSV", key="download_filtered_csv", on_click=download_filtered_csv)
                 else:
                     st.warning("No Quantities to Look at !")
         ## DRAW FRAME
