@@ -2,6 +2,7 @@ import ifcopenshell
 import streamlit as st
 import pandas as pd
 import os
+from pages.windows_info import windows_info_page
 
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
@@ -102,3 +103,6 @@ def main():
 if __name__ == "__main__":
     session = st.session_state
     main()
+# Add the windows info page
+    if "is_file_loaded" in session and session["is_file_loaded"]:
+        windows_info_page(session["ifc_file"])
