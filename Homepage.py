@@ -42,7 +42,8 @@ def windows_info_page(ifc_file):
         windows_info = get_windows_info(ifc_file)
         if windows_info:
             st.write("Windows found in the IFC file:")
-            st.table(windows_info)
+            df_windows_info = pd.DataFrame(windows_info)
+            st.write(df_windows_info)
         else:
             st.warning("No windows found in the IFC file.")
     else:
