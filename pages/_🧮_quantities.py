@@ -63,7 +63,7 @@ def execute():
         initialize_session_state()
     if not session.IsDataFrameLoaded:
         load_data()
-    if session.IsDataFrameLoaded:
+  if session.IsDataFrameLoaded:
         tab1, tab2 = st.tabs(["Dataframe Utilities", "Quantities Review"])
         with tab1:
             ## DATAFRAME REVIEW
@@ -104,7 +104,7 @@ def execute():
                         session.split_options,
                     )
                     st.plotly_chart(graph)
-            else:
-                 st.header("Step 1: Load a file from the Home Page")
+      else:
+          st.header("Step 1: Load a file from the Home Page")
 
     execute()
