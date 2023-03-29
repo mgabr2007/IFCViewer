@@ -4,6 +4,9 @@ from tools import ifchelper
 from tools import pandashelper
 import base64
 
+if not os.path.exists('./downloads'):
+    os.makedirs('./downloads')
+
 session = st.session_state
 
 
