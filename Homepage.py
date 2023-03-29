@@ -37,7 +37,12 @@ def main():
     ###   📁 Click on Browse File in the Side Bar to start
     """
     )
-
+    # Add a navigation menu to the sidebar
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio(
+        "Select a page:",
+        ["Home", "Windows Info"],
+    )
     ## Add File uploader to Side Bar Navigation
     st.sidebar.header('Model Loader')
     st.sidebar.file_uploader("📁 Choose a file", type=['ifc', 'IFC'], key="uploaded_file", on_change=callback_upload)
@@ -58,12 +63,7 @@ def main():
     
     """)
 
-    # Add a navigation menu to the sidebar
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio(
-        "Select a page:",
-        ["Home", "Windows Info"],
-    )
+    
 
     # Display the selected page
     if page == "Home":
