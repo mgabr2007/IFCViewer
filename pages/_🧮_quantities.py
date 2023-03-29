@@ -30,8 +30,10 @@ def get_ifc_pandas():
 
 
 def download_csv():
-    pandashelper.download_csv(session.file_name, session.DataFrame)
-
+    if session["DataFrame"] is not None and not session["DataFrame"].empty:
+        pandashelper.download_csv(session.file_name, session.DataFrame)
+    else:
+        st.warning("No data to download")
 
 def download_excel():
     pandashelper.download_excel(session.file_name, session.DataFrame)
@@ -53,8 +55,8 @@ def download_filtered_csv():
         # Display the download button
         st.markdown(href, unsafe_allow_html=True)
     else:
-        st.warning("No data to download") 
-
+        st.warning("No data to download")
+##############################################################
 def execute():
     st.set_page_config(
         page_title="Quantities",
@@ -74,8 +76,8 @@ def execute():
             st.write(session.DataFrame)
             # from st_aggrid import AgGrid
             # AgGrid(session.DataFrame)
-            st.button("Download CSV", key="download_csv", on_click=download_csv)
-            st.button("Download Excel", key="download_excel", on_click=download_excel)
+            st.button("⏬ Download CSV", key="download_csv", on_click=download_csv)
+            st.button("⏬ Download Excel", key="download_excel", on_click=download_excel)
         with tab2:
             row2col1, row2col2 = st.columns(2)
             with row2col1:
