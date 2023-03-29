@@ -99,10 +99,27 @@ def main():
     """)
     st.write("")
     st.sidebar.write("")
+# Add a navigation menu to the sidebar
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio(
+        "Select a page:",
+        ["Home", "Windows Info"],
+    )
+
+    # Display the selected page
+    if page == "Home":
+        if "is_file_loaded" in session and session["is_file_loaded"]:
+            col1, col2 = st.columns([2,1])
+            col1.subheader(f'Start Exploring "{get_project_name()}"')
+            col2.text_input("✏️ Change Project Name", key="project_name_input")
+            col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
+    elif page == "Windows Info":
+        windows_info_page(session.get("ifc_file"))
 
 if __name__ == "__main__":
     session = st.session_state
     main()
+
 # Add the windows info page
     if "is_file_loaded" in session and session["is_file_loaded"]:
         windows_info_page(session["ifc_file"])
