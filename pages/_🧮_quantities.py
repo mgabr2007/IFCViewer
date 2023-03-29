@@ -42,8 +42,9 @@ def download_filtered_csv():
     filtered_df = pandashelper.filter_dataframe_per_class(session.DataFrame, session.class_selector)
     filtered_df = pandashelper.get_quantities(filtered_df, session.qto_selector)
 
-    # Generate a downloadable link for the CSV file
+    # Check if filtered_df is not None and not empty
     if filtered_df is not None and not filtered_df.empty:
+        # Generate a downloadable link for the CSV file
         csv_file = filtered_df.to_csv(index=False)
         b64 = base64.b64encode(csv_file.encode()).decode()
         button_label = f"Download {session.class_selector} - {session.qto_selector}.csv"
@@ -52,7 +53,7 @@ def download_filtered_csv():
         # Display the download button
         st.markdown(href, unsafe_allow_html=True)
     else:
-        st.warning("No data available to download.") 
+        st.warning("No data to download") 
 
 def execute():
     st.set_page_config(
