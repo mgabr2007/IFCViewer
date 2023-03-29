@@ -27,7 +27,7 @@ def main():
         
     st.set_page_config(
         layout= "wide",
-        page_title="IFC Stream",
+        page_title="IFC Information",
         page_icon="✍️",
     )
     st.title("Streamlit IFC")
