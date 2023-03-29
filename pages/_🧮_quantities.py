@@ -39,11 +39,12 @@ def download_excel():
 
 def download_filtered_csv():
     # Filter the DataFrame based on user input
+    print(f"Filtering DataFrame for class {session.class_selector} and qto {session.qto_selector}")
     filtered_df = pandashelper.filter_dataframe_per_class(session.DataFrame, session.class_selector)
     filtered_df = pandashelper.get_quantities(filtered_df, session.qto_selector)
 
-    if not filtered_df.empty:
-        # Generate a downloadable link for the CSV file
+    # Generate a downloadable link for the CSV file
+    if filtered_df is not None and not filtered_df.empty:
         csv_file = filtered_df.to_csv(index=False)
         b64 = base64.b64encode(csv_file.encode()).decode()
         button_label = f"Download {session.class_selector} - {session.qto_selector}.csv"
@@ -52,7 +53,7 @@ def download_filtered_csv():
         # Display the download button
         st.markdown(href, unsafe_allow_html=True)
     else:
-        st.warning("No data to download!") 
+        print("Filtered DataFrame is empty or None")
 
 def execute():
     st.set_page_config(
