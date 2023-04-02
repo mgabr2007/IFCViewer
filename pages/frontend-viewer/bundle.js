@@ -40969,17 +40969,6 @@ class Texture extends EventDispatcher {
 
     }
 
-    set needsUpdate(value) {
-
-        if (value === true) {
-
-            this.version++;
-            this.source.needsUpdate = true;
-
-        }
-
-    }
-
     updateMatrix() {
 
         this.matrix.setUvTransform(this.offset.x, this.offset.y, this.repeat.x, this.repeat.y, this.rotation, this.center.x, this.center.y);
@@ -41177,6 +41166,17 @@ class Texture extends EventDispatcher {
         }
 
         return uv;
+
+    }
+
+    set needsUpdate(value) {
+
+        if (value === true) {
+
+            this.version++;
+            this.source.needsUpdate = true;
+
+        }
 
     }
 
@@ -42012,58 +42012,6 @@ class Quaternion {
 
     }
 
-    get x() {
-
-        return this._x;
-
-    }
-
-    set x(value) {
-
-        this._x = value;
-        this._onChangeCallback();
-
-    }
-
-    get y() {
-
-        return this._y;
-
-    }
-
-    set y(value) {
-
-        this._y = value;
-        this._onChangeCallback();
-
-    }
-
-    get z() {
-
-        return this._z;
-
-    }
-
-    set z(value) {
-
-        this._z = value;
-        this._onChangeCallback();
-
-    }
-
-    get w() {
-
-        return this._w;
-
-    }
-
-    set w(value) {
-
-        this._w = value;
-        this._onChangeCallback();
-
-    }
-
     static slerpFlat(dst, dstOffset, src0, srcOffset0, src1, srcOffset1, t) {
 
         // fuzz-free, array-based Quaternion SLERP operation
@@ -42162,6 +42110,58 @@ class Quaternion {
         dst[dstOffset + 3] = w0 * w1 - x0 * x1 - y0 * y1 - z0 * z1;
 
         return dst;
+
+    }
+
+    get x() {
+
+        return this._x;
+
+    }
+
+    set x(value) {
+
+        this._x = value;
+        this._onChangeCallback();
+
+    }
+
+    get y() {
+
+        return this._y;
+
+    }
+
+    set y(value) {
+
+        this._y = value;
+        this._onChangeCallback();
+
+    }
+
+    get z() {
+
+        return this._z;
+
+    }
+
+    set z(value) {
+
+        this._z = value;
+        this._onChangeCallback();
+
+    }
+
+    get w() {
+
+        return this._w;
+
+    }
+
+    set w(value) {
+
+        this._w = value;
+        this._onChangeCallback();
 
     }
 
@@ -47272,12 +47272,6 @@ class Material extends EventDispatcher {
 
     }
 
-    set needsUpdate(value) {
-
-        if (value === true) this.version++;
-
-    }
-
     onBuild( /* shaderobject, renderer */) {
     }
 
@@ -47668,6 +47662,12 @@ class Material extends EventDispatcher {
 
     }
 
+    set needsUpdate(value) {
+
+        if (value === true) this.version++;
+
+    }
+
 }
 
 class MeshBasicMaterial extends Material {
@@ -47775,13 +47775,13 @@ class BufferAttribute {
 
     }
 
+    onUploadCallback() {
+    }
+
     set needsUpdate(value) {
 
         if (value === true) this.version++;
 
-    }
-
-    onUploadCallback() {
     }
 
     setUsage(value) {
@@ -56434,6 +56434,22 @@ class WebGLUniforms {
 
     }
 
+    setValue(gl, name, value, textures) {
+
+        const u = this.map[name];
+
+        if (u !== undefined) u.setValue(gl, value, textures);
+
+    }
+
+    setOptional(gl, object, name) {
+
+        const v = object[name];
+
+        if (v !== undefined) this.setValue(gl, name, v);
+
+    }
+
     static upload(gl, seq, values, textures) {
 
         for (let i = 0, n = seq.length; i !== n; ++i) {
@@ -56464,22 +56480,6 @@ class WebGLUniforms {
         }
 
         return r;
-
-    }
-
-    setValue(gl, name, value, textures) {
-
-        const u = this.map[name];
-
-        if (u !== undefined) u.setValue(gl, value, textures);
-
-    }
-
-    setOptional(gl, object, name) {
-
-        const v = object[name];
-
-        if (v !== undefined) this.setValue(gl, name, v);
 
     }
 
@@ -58464,6 +58464,7 @@ function ShadowUniformsCache() {
     };
 
 }
+
 
 
 let nextVersion = 0;
@@ -67287,22 +67288,6 @@ class Scene extends Object3D {
 
     }
 
-    get autoUpdate() {
-
-        console.warn('THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.');
-        return this.matrixWorldAutoUpdate;
-
-    }
-
-    set autoUpdate(value) {
-
-        console.warn('THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.');
-        this.matrixWorldAutoUpdate = value;
-
-    }
-
-    // @deprecated
-
     copy(source, recursive) {
 
         super.copy(source, recursive);
@@ -67326,6 +67311,22 @@ class Scene extends Object3D {
         if (this.fog !== null) data.object.fog = this.fog.toJSON();
 
         return data;
+
+    }
+
+    // @deprecated
+
+    get autoUpdate() {
+
+        console.warn('THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.');
+        return this.matrixWorldAutoUpdate;
+
+    }
+
+    set autoUpdate(value) {
+
+        console.warn('THREE.Scene: autoUpdate was renamed to matrixWorldAutoUpdate in r144.');
+        this.matrixWorldAutoUpdate = value;
 
     }
 
@@ -75868,61 +75869,6 @@ const trianglePool = /* @__PURE__ */ new PrimitivePool(() => new ExtendedTriangl
 
 class MeshBVH {
 
-    constructor(geometry, options = {}) {
-
-        if (!geometry.isBufferGeometry) {
-
-            throw new Error('MeshBVH: Only BufferGeometries are supported.');
-
-        } else if (geometry.index && geometry.index.isInterleavedBufferAttribute) {
-
-            throw new Error('MeshBVH: InterleavedBufferAttribute is not supported for the index attribute.');
-
-        }
-
-        // default options
-        options = Object.assign({
-
-            strategy: CENTER,
-            maxDepth: 40,
-            maxLeafTris: 10,
-            verbose: true,
-            useSharedArrayBuffer: false,
-            setBoundingBox: true,
-            onProgress: null,
-
-            // undocumented options
-
-            // Whether to skip generating the tree. Used for deserialization.
-            [SKIP_GENERATION]: false,
-
-        }, options);
-
-        if (options.useSharedArrayBuffer && typeof SharedArrayBuffer === 'undefined') {
-
-            throw new Error('MeshBVH: SharedArrayBuffer is not available.');
-
-        }
-
-        this._roots = null;
-        if (!options[SKIP_GENERATION]) {
-
-            this._roots = buildPackedTree(geometry, options);
-
-            if (!geometry.boundingBox && options.setBoundingBox) {
-
-                geometry.boundingBox = this.getBoundingBox(new Box3());
-
-            }
-
-        }
-
-        // retain references to the geometry so we can use them it without having to
-        // take a geometry reference in every function.
-        this.geometry = geometry;
-
-    }
-
     static serialize(bvh, options = {}) {
 
         if (options.isBufferGeometry) {
@@ -76010,6 +75956,61 @@ class MeshBVH {
         }
 
         return bvh;
+
+    }
+
+    constructor(geometry, options = {}) {
+
+        if (!geometry.isBufferGeometry) {
+
+            throw new Error('MeshBVH: Only BufferGeometries are supported.');
+
+        } else if (geometry.index && geometry.index.isInterleavedBufferAttribute) {
+
+            throw new Error('MeshBVH: InterleavedBufferAttribute is not supported for the index attribute.');
+
+        }
+
+        // default options
+        options = Object.assign({
+
+            strategy: CENTER,
+            maxDepth: 40,
+            maxLeafTris: 10,
+            verbose: true,
+            useSharedArrayBuffer: false,
+            setBoundingBox: true,
+            onProgress: null,
+
+            // undocumented options
+
+            // Whether to skip generating the tree. Used for deserialization.
+            [SKIP_GENERATION]: false,
+
+        }, options);
+
+        if (options.useSharedArrayBuffer && typeof SharedArrayBuffer === 'undefined') {
+
+            throw new Error('MeshBVH: SharedArrayBuffer is not available.');
+
+        }
+
+        this._roots = null;
+        if (!options[SKIP_GENERATION]) {
+
+            this._roots = buildPackedTree(geometry, options);
+
+            if (!geometry.boundingBox && options.setBoundingBox) {
+
+                geometry.boundingBox = this.getBoundingBox(new Box3());
+
+            }
+
+        }
+
+        // retain references to the geometry so we can use them it without having to
+        // take a geometry reference in every function.
+        this.geometry = geometry;
 
     }
 

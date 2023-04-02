@@ -1,12 +1,12 @@
+import streamlit as st
+from tools import ifchelper
 import json
+import ifcopenshell
 ##################### STREAMLIT IFC-JS COMPONENT MAGIC ######################
 from pathlib import Path  #
+from re import L  #
 from typing import Optional  #
-
-import ifcopenshell
-import streamlit as st
 import streamlit.components.v1 as components  #
-from tools import ifchelper
 
 #                                                                           #
 #                                                                           #
@@ -35,10 +35,8 @@ def ifc_js_viewer(  #
 def draw_3d_viewer():
     def get_current_ifc_file():
         return session.array_buffer
-
     session.ifc_js_response = ifc_js_viewer(get_current_ifc_file())
     st.sidebar.success("Visualiser loaded")
-
 
 def get_psets_from_ifc_js():
     if session.ifc_js_response:
@@ -74,7 +72,6 @@ def initialise_debug_props(force=False):
             "inverse_references": [],
             "express_file": None,
         }
-
 
 def get_object_data(fromId=None):
     def add_attribute(prop, key, value):
@@ -131,7 +128,6 @@ def get_object_data(fromId=None):
                 debug_props["inverse_references"].append(propy)
 
             print(debug_props["attributes"])
-
 
 def edit_object_data(object_id, attribute):
     entity = session.ifc_file.by_id(object_id)
@@ -214,7 +210,5 @@ def execute():
             write_health_data()
     else:
         st.header("Step 1: Load a file from the Home Page")
-
-
 session = st.session_state
 execute()

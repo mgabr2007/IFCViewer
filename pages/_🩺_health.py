@@ -1,7 +1,10 @@
-import ifcopenshell
+from email.policy import default
 import streamlit as st
-from tools import graph_maker
 from tools import ifchelper
+from tools import graph_maker
+from datetime import datetime
+
+import ifcopenshell
 
 
 def initialize_session_state():
@@ -10,7 +13,6 @@ def initialize_session_state():
     session["Graphs"] = {}
     session["SequenceData"] = {}
     session["CostScheduleData"] = {}
-
 
 def load_data():
     if "ifc_file" in session:
@@ -21,7 +23,6 @@ def load_data():
         load_cost_schedules()
         load_work_schedules()
         session["isHealthDataLoaded"] = True
-
 
 def load_work_schedules():
     session.SequenceData = {
@@ -34,7 +35,6 @@ def load_work_schedules():
         ],
     }
 
-
 def load_cost_schedules():
     session["CostData"] = {
         "schedules": session.ifc_file.by_type("IfcCostSchedule"),
@@ -45,7 +45,6 @@ def load_cost_schedules():
 def add_cost_schedule():
     ifchelper.create_cost_schedule(session.ifc_file, session["cost_input"])
     load_cost_schedules()
-
 
 def add_work_schedule():
     ifchelper.create_work_schedule(session.ifc_file, session["schedule_input"])
@@ -113,7 +112,6 @@ def draw_side_bar():
     ## File Saver
     st.sidebar.button("💾 Save File", key="save_file", on_click=save_file)
 
-
 def initialise_debug_props(force=False):
     if not "BIMDebugProperties" in session:
         session.BIMDebugProperties = {
@@ -139,7 +137,6 @@ def initialise_debug_props(force=False):
             "inverse_references": [],
             "express_file": None,
         }
-
 
 def get_object_data(fromId=None):
     def add_attribute(prop, key, value):
@@ -193,7 +190,6 @@ def get_object_data(fromId=None):
             debug_props["inverse_references"].append(propy)
 
         print(debug_props["attributes"])
-
 
 def edit_object_data(object_id, attribute):
     entity = session.ifc_file.by_id(object_id)
@@ -263,7 +259,6 @@ def execute():
         draw_side_bar()
     else:
         st.header("Step 1: Load a file from the Home Page")
-
 
 session = st.session_state
 execute()

@@ -4,16 +4,20 @@ import {
     AxesHelper,
     DirectionalLight,
     GridHelper,
-    MeshLambertMaterial,
     PerspectiveCamera,
-    Raycaster,
+    MeshLambertMaterial,
     Scene,
+    Raycaster,
     Vector2,
     WebGLRenderer,
 } from "./vendor/three.module.js";
 import {OrbitControls} from "./vendor/OrbitControls.js";
 
-import {acceleratedRaycast, computeBoundsTree, disposeBoundsTree} from './vendor/three-mesh-bvh/three-mesh-bvh.js';
+import {
+    acceleratedRaycast,
+    computeBoundsTree,
+    disposeBoundsTree
+} from './vendor/three-mesh-bvh/three-mesh-bvh.js';
 
 
 function sendMessageToStreamlitClient(type, data) {
