@@ -9,7 +9,6 @@ def get_windows_info(ifc_file):
     for window in windows:
         area = window.OverallWidth * window.OverallHeight
         info = {
-            "GlobalId": window.GlobalId,
             "Name": window.Name,
             "ObjectType": window.ObjectType,
             "ConstructionType": window.ConstructionType.Name if window.ConstructionType else None,
