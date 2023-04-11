@@ -2,7 +2,7 @@ import ifcopenshell
 import streamlit as st
 import pandas as pd
 import os
-from pages.windows_info import windows_info_page
+from pages._🪟_Windows_info import windows_info_page
 
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
