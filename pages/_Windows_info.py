@@ -8,6 +8,7 @@ def get_windows_info(ifc_file):
     windows_info = []
 
     for window in windows:
+        area = window.OverallWidth * window.OverallHeight
         info = {
             "Name": window.Name,
             "ConstructionType": window.ConstructionType.Name if window.ConstructionType else None,
@@ -17,6 +18,7 @@ def get_windows_info(ifc_file):
             "SoundReductionIndex": window.SoundReductionIndex,
             "OverallWidth": window.OverallWidth,
             "OverallHeight": window.OverallHeight,
+            "Area": area,
             "Location": window.ObjectPlacement.RelativePlacement.Location.Coordinates if window.ObjectPlacement.RelativePlacement.Location else None,
             "Elevation": window.ObjectPlacement.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.RefDirection else None,
             "Orientation": window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.PlacementRelTo and window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection else None,
@@ -31,10 +33,8 @@ def windows_info_page(ifc_file):
         windows_info = get_windows_info(ifc_file)
         if windows_info:
             st.write("Windows found in the IFC file:")
-            df_windows_props = pd.DataFrame(windows_info, columns=["GlobalId", "Name", "ObjectType", "ConstructionType", "FrameDepth", "GlazingType", "OperationType", "SoundReductionIndex", "OverallWidth", "OverallHeight", "Area", "UValue", "SHGC"])
+            df_windows_props = pd.DataFrame(windows_info, columns=["Name", "ConstructionType", "FrameDepth", "GlazingType", "OperationType", "SoundReductionIndex", "OverallWidth", "OverallHeight", "Area", "Location", "Elevation", "Orientation", "Zone"])
             st.write(df_windows_props)
-            df_windows_location = pd.DataFrame(windows_info, columns=["GlobalId", "Name", "Location", "Elevation", "Orientation", "Zone"])
-            st.write(df_windows_location)
         else:
             st.warning("No windows found in the IFC file.")
     else:
