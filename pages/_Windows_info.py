@@ -34,8 +34,10 @@ def windows_info_page(ifc_file):
         windows_info = get_windows_info(ifc_file)
         if windows_info:
             st.write("Windows found in the IFC file:")
-            df_windows_info = pd.DataFrame(windows_info)
-            st.write(df_windows_info)
+            df_windows_props = pd.DataFrame(windows_info, columns=["GlobalId", "Name", "ObjectType", "ConstructionType", "FrameDepth", "GlazingType", "OperationType", "SoundReductionIndex", "OverallWidth", "OverallHeight", "UValue", "SHGC"])
+            st.write(df_windows_props)
+            df_windows_location = pd.DataFrame(windows_info, columns=["GlobalId", "Name", "Location", "Elevation", "Orientation", "Zone"])
+            st.write(df_windows_location)
         else:
             st.warning("No windows found in the IFC file.")
     else:
