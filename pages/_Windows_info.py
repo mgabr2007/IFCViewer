@@ -2,15 +2,14 @@
 import streamlit as st
 import pandas as pd
 
+# Define a function to extract window information from an IFC file
 def get_windows_info(ifc_file):
     windows = ifc_file.by_type("IfcWindow")
     windows_info = []
 
     for window in windows:
-        area = window.OverallWidth * window.OverallHeight
         info = {
             "Name": window.Name,
-            "ObjectType": window.ObjectType,
             "ConstructionType": window.ConstructionType.Name if window.ConstructionType else None,
             "FrameDepth": window.FrameDepth,
             "GlazingType": window.GlazingType.Name if window.GlazingType else None,
@@ -18,13 +17,10 @@ def get_windows_info(ifc_file):
             "SoundReductionIndex": window.SoundReductionIndex,
             "OverallWidth": window.OverallWidth,
             "OverallHeight": window.OverallHeight,
-            "Area": area,
             "Location": window.ObjectPlacement.RelativePlacement.Location.Coordinates if window.ObjectPlacement.RelativePlacement.Location else None,
             "Elevation": window.ObjectPlacement.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.RefDirection else None,
             "Orientation": window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.PlacementRelTo and window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection else None,
-            "Zone": window.ContainedInStructure.Name if window.ContainedInStructure else None,
-            "UValue": window.HasPropertySets[0].HasProperties[0].NominalValue.wrappedValue if window.HasPropertySets and window.HasPropertySets[0].HasProperties and window.HasPropertySets[0].HasProperties[0].Name == "U-Value" else None,
-            "SHGC": window.HasPropertySets[0].HasProperties[0].NominalValue.wrappedValue if window.HasPropertySets and window.HasPropertySets[0].HasProperties and window.HasPropertySets[0].HasProperties[0].Name == "SHGC" else None
+            "Zone": window.ContainedInStructure.Name if window.ContainedInStructure else None
         }
         windows_info.append(info)
 
