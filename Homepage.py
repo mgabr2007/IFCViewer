@@ -6,9 +6,11 @@ from pages._Windows_info import windows_info_page
 
 def callback_upload():
     if "uploaded_file" not in session or session["uploaded_file"] is None:
+        print("No file uploaded.")
         st.warning("Please select a file to upload.")
         return
 
+    print("Uploading file...")
     try:
         session["file_name"] = session["uploaded_file"].name
         session["array_buffer"] = session["uploaded_file"].getvalue()
@@ -18,6 +20,27 @@ def callback_upload():
     except Exception as e:
         st.error(f"Error loading file: {e}")
         session.clear()
+
+    print(f"session: {session}")
+
+def callback_upload():
+    if "uploaded_file" not in session or session["uploaded_file"] is None:
+        print("No file uploaded.")
+        st.warning("Please select a file to upload.")
+        return
+
+    print("Uploading file...")
+    try:
+        session["file_name"] = session["uploaded_file"].name
+        session["array_buffer"] = session["uploaded_file"].getvalue()
+        session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
+        session["is_file_loaded"] = True
+        st.sidebar.success(f"{session['file_name']} successfully loaded.")
+    except Exception as e:
+        st.error(f"Error loading file: {e}")
+        session.clear()
+
+    print(f"session: {session}")
 
 
 def get_project_name():
