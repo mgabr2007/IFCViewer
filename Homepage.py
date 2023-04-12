@@ -5,14 +5,20 @@ import os
 from pages._Windows_info import windows_info_page
 
 def callback_upload():
-    session["file_name"] = session["uploaded_file"].name
-    session["array_buffer"] = session["uploaded_file"].getvalue()
-    session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
-    session["is_file_loaded"] = True
     if "uploaded_file" not in session or session["uploaded_file"] is None:
+        st.warning("Please select a file to upload.")
         return
 
-    session["file_name"] = session["uploaded_file"].name
+    try:
+        session["file_name"] = session["uploaded_file"].name
+        session["array_buffer"] = session["uploaded_file"].getvalue()
+        session["ifc_file"] = ifcopenshell.file.from_string(session["array_buffer"].decode("utf-8"))
+        session["is_file_loaded"] = True
+        st.sidebar.success(f"{session['file_name']} successfully loaded.")
+    except Exception as e:
+        st.error(f"Error loading file: {e}")
+        session.clear()
+
 
 def get_project_name():
     return session.ifc_file.by_type("IfcProject")[0].Name
