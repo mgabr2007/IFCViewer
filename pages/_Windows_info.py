@@ -17,17 +17,16 @@ def get_windows_info(ifc_file):
             "SoundReductionIndex": window.SoundReductionIndex,
             "OverallWidth": window.OverallWidth,
             "OverallHeight": window.OverallHeight,
-            "Area": window.OverallWidth * window.OverallHeight if window.OverallWidth and window.OverallHeight else None,
-            "Location": window.ObjectPlacement.RelativePlacement.Location.Coordinates if window.ObjectPlacement.RelativePlacement.Location else None,
-            "Elevation": window.ObjectPlacement.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.RefDirection else None,
-            "Orientation": window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.PlacementRelTo and window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection else None,
-            "Zone": window.ContainedInStructure.Name if window.ContainedInStructure else None,
-            "UValue": window.HasPropertySets[0].HasProperties[0].NominalValue.wrappedValue if window.HasPropertySets and window.HasPropertySets[0].HasProperties and window.HasPropertySets[0].HasProperties[0].Name == "U-Value" else None,
-            "SHGC": window.HasPropertySets[0].HasProperties[0].NominalValue.wrappedValue if window.HasPropertySets and window.HasPropertySets[0].HasProperties and window.HasPropertySets[0].HasProperties[0].Name == "SHGC" else None
+            "Location": window.ObjectPlacement.RelativePlacement.Location.Coordinates if window.ObjectPlacement.RelativePlacement.Location is not None and hasattr(window.ObjectPlacement.RelativePlacement, "Location") else None,
+            "Elevation": window.ObjectPlacement.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.RefDirection is not None and hasattr(window.ObjectPlacement.RelativePlacement, "RefDirection") and hasattr(window.ObjectPlacement.RelativePlacement.RefDirection, "DirectionRatios") else None,
+            "Orientation": window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.PlacementRelTo is not None and hasattr(window.ObjectPlacement.RelativePlacement.PlacementRelTo, "RelativePlacement") and hasattr(window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement, "RefDirection") and hasattr(window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection, "DirectionRatios") else None,
+            "Zone": window.ContainedInStructure.Name if window.ContainedInStructure is not None and hasattr(window.ContainedInStructure, "Name") else None,
+            "Area": window.OverallWidth * window.OverallHeight if window.OverallWidth is not None and window.OverallHeight is not None else None,
         }
         windows_info.append(info)
 
     return windows_info
+
 
 
 def windows_info_page(ifc_file):
