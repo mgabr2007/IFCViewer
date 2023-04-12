@@ -10,11 +10,6 @@ def get_windows_info(ifc_file):
     for window in windows:
         info = {
             "Name": window.Name,
-            "ConstructionType": window.ConstructionType.Name if window.ConstructionType is not None and hasattr(window.ConstructionType, "Name") else None,
-            "FrameDepth": window.FrameDepth,
-            "GlazingType": window.GlazingType.Name if window.GlazingType else None,
-            "OperationType": window.OperationType.Name if window.OperationType else None,
-            "SoundReductionIndex": window.SoundReductionIndex,
             "OverallWidth": window.OverallWidth,
             "OverallHeight": window.OverallHeight,
             "Location": window.ObjectPlacement.RelativePlacement.Location.Coordinates if window.ObjectPlacement.RelativePlacement.Location else None,
