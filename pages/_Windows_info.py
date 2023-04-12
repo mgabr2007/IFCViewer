@@ -21,7 +21,7 @@ def get_windows_info(ifc_file):
             "Elevation": window.ObjectPlacement.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.RefDirection else None,
             "Orientation": window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection.DirectionRatios if window.ObjectPlacement.RelativePlacement.PlacementRelTo and window.ObjectPlacement.RelativePlacement.PlacementRelTo.RelativePlacement.RefDirection else None,
             "Zone": window.ContainedInStructure.Name if window.ContainedInStructure else None,
-            "Area": window.OverallWidth * window.OverallHeight if window.OverallWidth and window.OverallHeight else None
+            "Area": window.OverallHeight * window.OverallWidth if window.OverallHeight and window.OverallWidth else None
         }
         windows_info.append(info)
 
