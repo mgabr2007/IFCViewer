@@ -8,6 +8,10 @@ def get_windows_info(ifc_file):
     windows_info = []
 
     for window in windows:
+        # Print out the window object and its attributes to diagnose any issues
+        print(window)
+        print(window.Name, window.OverallWidth, window.OverallHeight)
+
         info = {
             "Name": window.Name,
             "OverallWidth": window.OverallWidth,
@@ -24,10 +28,16 @@ def get_windows_info(ifc_file):
 
 def windows_info_page(ifc_file):
     if ifc_file:
-        windows_info = get_windows_info(ifc_file)
+        try:
+            windows_info = get_windows_info(ifc_file)
+        except AttributeError as e:
+            # Catch any AttributeError raised in get_windows_info and provide a more informative error message
+            st.error(f"Error extracting windows information from IFC file: {e}")
+            return
+
         if windows_info:
             st.write("Windows found in the IFC file:")
-            df_windows_props = pd.DataFrame(windows_info, columns=["GlobalId", "ConstructionType", "FrameDepth", "GlazingType", "OperationType", "SoundReductionIndex", "OverallWidth", "OverallHeight", "Area", "Location", "Elevation", "Orientation", "Zone"])
+            df_windows_props = pd.DataFrame(windows_info, columns=["Name", "OverallWidth", "OverallHeight", "Location", "Elevation", "Orientation", "Zone", "Area"])
             st.write(df_windows_props)
         else:
             st.warning("No windows found in the IFC file.")
