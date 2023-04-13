@@ -220,7 +220,6 @@ var require_web_ifc = __commonJS({
                         factor = STACK_ALIGN;
                     return Math.ceil(size / factor) * factor;
                 }
-
                 var wasmBinary;
                 if (Module["wasmBinary"])
                     wasmBinary = Module["wasmBinary"];
@@ -5470,7 +5469,6 @@ var require_web_ifc = __commonJS({
                     this.message = "Program terminated with exit(" + status + ")";
                     this.status = status;
                 }
-
                 dependenciesFulfilled = function runCaller() {
                     if (!calledRun)
                         run();
@@ -38481,6 +38479,7 @@ var IfcZone = class {
 
 // dist/web-ifc-api.ts
 var WebIFCWasm = require_web_ifc();
+
 var IfcAPI = class {
     constructor() {
         this.wasmModule = void 0;
@@ -58464,7 +58463,6 @@ function ShadowUniformsCache() {
     };
 
 }
-
 
 
 let nextVersion = 0;
