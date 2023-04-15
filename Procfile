@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run --server.enableCORS false --server.port $PORT Homepage.py
+web: sh setup.sh && streamlit run Homepage.py
