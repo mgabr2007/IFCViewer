@@ -6,4 +6,4 @@ pandas
 xlsxwriter
 pyvista
 vtk
-
+protobuf==3.20.0
