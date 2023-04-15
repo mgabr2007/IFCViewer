@@ -47,13 +47,8 @@ def main():
 
     st.sidebar.write("""
     --------------
-    ### Credits:
-    #### Sigma Dimensions (TM)
-
-    Follow us [on Youtube](https://www.youtube.com/channel/UC9bPwuJZUD6ooKqzwdq9M9Q?sub_confirmation=1)
-
     --------------
-    License: MIT
+    
 
     """)
     st.write("")
