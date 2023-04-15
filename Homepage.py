@@ -4,6 +4,11 @@ import os
 import glob
 import importlib
 
+st.set_page_config(
+        layout="wide",
+        page_title="IFC Stream",
+        page_icon="✍️",
+    )
 
 def callback_upload():
     st.session_state["file_name"] = st.session_state["uploaded_file"].name
@@ -17,11 +22,7 @@ def render_page(page_module):
 
 
 def main():
-    st.set_page_config(
-        layout="wide",
-        page_title="IFC Stream",
-        page_icon="✍️",
-    )
+
     st.title("Streamlit IFC")
     st.markdown(
         """ 
