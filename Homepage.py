@@ -1,7 +1,8 @@
 import ifcopenshell
 import streamlit as st
-
-
+import os
+import glob
+import importlib
 def callback_upload():
     session["file_name"] = session["uploaded_file"].name
     session["array_buffer"] = session["uploaded_file"].getvalue()
@@ -59,6 +60,26 @@ def main():
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name())
 
     st.sidebar.write("""
+    # Add the page navigation
+    st.sidebar.subheader("Pages")
+
+    # Get the list of .py files in the "pages" folder
+    page_files = glob.glob("pages/*.py")
+    page_links = []
+
+    # Remove the "pages/" prefix and ".py" suffix and create the links
+    for page_file in page_files:
+        module_name = os.path.basename(page_file)[:-3]
+        if module_name[0] != "_":  # Ignore files starting with an underscore
+            link_text = module_name.replace("_", " ")
+            page_links.append((link_text, module_name))
+
+    # Display the page links and switch to the corresponding module when clicked
+    for link_text, module_name in page_links:
+        if st.sidebar.button(link_text):
+            module = importlib.import_module(f'pages.{module_name}')
+            module.execute()
+
     --------------
     ### Credits:
     #### Sigma Dimensions (TM)
