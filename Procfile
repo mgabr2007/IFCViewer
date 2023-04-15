@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run --server.port $PORT --server.enableCORS false --server.enableXsrfProtection false Homepage.py
+web: sh setup.sh && streamlit run --server.enableCORS false --server.port $PORT Homepage.py
