@@ -67,9 +67,8 @@ def main():
     # Remove the "pages/" prefix and ".py" suffix and create the links
     for page_file in page_files:
         module_name = os.path.basename(page_file)[:-3]
-        if module_name[0] != "_":  # Ignore files starting with an underscore
-            link_text = module_name.replace("_", " ")
-            page_links.append((link_text, module_name))
+        link_text = module_name.replace("_", " ")
+        page_links.append((link_text, module_name))
 
     # Display the page links and switch to the corresponding module when clicked
     for link_text, module_name in page_links:
