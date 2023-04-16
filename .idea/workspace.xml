@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea0e0735-7eb6-45b9-8052-503aa765e410" name="Changes" comment="Modify 6">
+    <list default="true" id="ea0e0735-7eb6-45b9-8052-503aa765e410" name="Changes" comment="Modify 7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Homepage.py" beforeDir="false" afterPath="$PROJECT_DIR$/Homepage.py" afterDir="false" />
     </list>
@@ -47,7 +47,7 @@
       <updated>1681560027673</updated>
       <workItem from="1681560049085" duration="1266000" />
       <workItem from="1681564459607" duration="40000" />
-      <workItem from="1681564507908" duration="6661000" />
+      <workItem from="1681564507908" duration="7184000" />
     </task>
     <task id="LOCAL-00001" summary="Mostafa Modify">
       <created>1681566880248</created>
@@ -91,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681580107358</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Modify 7">
+      <created>1681648677833</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681648677833</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,7 +122,8 @@
     <MESSAGE value="Modify 4" />
     <MESSAGE value="Modify 5" />
     <MESSAGE value="Modify 6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modify 6" />
+    <MESSAGE value="Modify 7" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modify 7" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/IFCViewer$Homepage.coverage" NAME="Homepage Coverage Results" MODIFIED="1681577916234" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
