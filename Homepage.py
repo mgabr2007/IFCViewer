@@ -57,7 +57,7 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
 
-def main():
+def main(session):
     st.set_page_config(
         layout="wide",
         page_title="IFC Stream",
@@ -85,11 +85,10 @@ def main():
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
 
     # Call run_app() inside main() function
-    run_app()
+    run_app(session)
 
-def run_app():
-    session = st.session_state
-    main()
+def run_app(session):
+    main(session)
 
     # Add the page navigation
     st.sidebar.subheader("Pages")
@@ -119,4 +118,4 @@ def run_app():
 
 if __name__ == "__main__":
     session = st.session_state
-    main()
+    main(session)
