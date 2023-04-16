@@ -57,24 +57,30 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
 
-    # Add the page navigation
-    st.sidebar.subheader("Pages")
+    def run_app():
+        session = st.session_state
+        main()
 
-    # Get the list of .py files in the "pages" folder
-    page_files = glob.glob("pages/*.py")
-    page_links = []
+        # Add the page navigation
+        st.sidebar.subheader("Pages")
 
-    # Remove the "pages/" prefix and ".py" suffix and create the links
-    for page_file in page_files:
-        module_name = os.path.basename(page_file)[:-3]
-        link_text = module_name.replace("_", " ")
-        page_links.append((link_text, module_name))
+        # Get the list of .py files in the "pages" folder
+        page_files = glob.glob("pages/*.py")
+        page_links = []
 
-    # Display the page links and switch to the corresponding module when clicked
-    for link_text, module_name in page_links:
-        if st.sidebar.button(link_text):
-            module = importlib.import_module(f'pages.{module_name}')
-            module.execute()
+        # Remove the "pages/" prefix and ".py" suffix and create the links
+        for page_file in page_files:
+            module_name = os.path.basename(page_file)[:-3]
+            link_text = module_name.replace("_", " ")
+            page_links.append((link_text, module_name))
+
+        # Display the page links and switch to the corresponding module when clicked
+        for link_text, module_name in page_links:
+            if st.sidebar.button(link_text):
+                module = importlib.import_module(f'pages.{module_name}')
+                module.execute()
+
+
 
     st.write("""
     --------------
@@ -83,6 +89,6 @@ def main():
     st.write("")
     st.sidebar.write("")
 
+
 if __name__ == "__main__":
-    session = st.session_state
-    main()
+    run_app()

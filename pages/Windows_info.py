@@ -43,3 +43,4 @@ def windows_info_page(ifc_file):
             st.warning("No windows found in the IFC file.")
     else:
         st.error("No IFC file loaded. Please load an IFC file to view windows information.")
+execute()
