@@ -57,6 +57,14 @@ def main():
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
 
+import ifcopenshell
+import streamlit as st
+import os
+import glob
+import importlib
+
+# ... (rest of the code)
+
 def main(session):
     st.set_page_config(
         layout="wide",
@@ -83,12 +91,6 @@ def main(session):
         col1.subheader(f'Start Exploring "{get_project_name()}"')
         col2.text_input("✏️ Change Project Name", key="project_name_input")
         col2.button("✔️ Apply", key="change_project_name", on_click=change_project_name)
-
-    # Call run_app() inside main() function
-    run_app(session)
-
-def run_app(session):
-    main(session)
 
     # Add the page navigation
     st.sidebar.subheader("Pages")
